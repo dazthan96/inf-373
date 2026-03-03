@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos Númericos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    <script src="tarea01.js"></script>
+</head>
+<body class="bg-light">
+    <!--Barra de navegacion-->
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Tema 1: Aproximacion y Errores de redondeo
+            </span>
+            <a href="index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container py-5">
+        <!--Contexto de la tarea-->
+        <div class="row justify-content-center mb-4">
+            <div class="">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="h4 card-title text-black mb-3">
+                            <i class="bi bi-broadcast"></i> Caso de Estudio: Auditoría de Conectividad
+                        </h2>
+                        <p class="lead">
+                            Una empresa de telecomunicaciones se propuso medir la velocidad de la conexión que ofrece en puntos estratégicos de la ciudad.
+                        </p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p><strong>Objetivo:</strong> Determinar la estabilidad del servicio comparando las mediciones obtenidas frente al estándar óptimo de la empresa.</p>
+                                <p class="text-muted">
+                                    Se realizaron 20 mediciones de latencia (ping) en diferentes nodos, utilizando como valor base de referencia 100 ms.
+                                </p>
+                            </div>
+                            <div class="col-md-4 border-start d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <span class="d-block text-uppercase text-muted small">Valor Real Base</span>
+                                    <span class="display-6 fw-bold text-success">100 ms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Tabla con los resultados-->
+        <div class="row justify-content-center">
+            <div class="">
+                <div class="card shadow-sm px-2">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-secondary">Desglose de Mediciones y Cálculo de Errores</h5>
+                        <span class="badge bg-primary"> n=20 mediciones</span>
+                    </div>
+                    <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Nro.</th>
+                                <th>Valor Obs. (ms)</th>
+                                <th>Error Absoluto</th>
+                                <th>Error Relativo</th>
+                                <th class="pe-4">Error Rel. %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-cuerpo">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        <!--Interpretacion de la los resultados-->
+        <div class="row justify-content-center mt-4">
+            <div class="">
+                <div class="card border-black shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0 text-center">Interpretación de Exactitud y Precisión</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <!-- Columna de Exactitud -->
+                            <div class="col-md-6 border-end">
+                                <h6 class="text-muted">Exactitud (Sesgo)</h6>
+                                <p id="txt-exactitud" class="h5">Calculando...</p>
+                                <small class="text-muted">Cercanía del promedio al valor real (100 ms).</small>
+                            </div>
+                            <!-- Columna de Precisión -->
+                            <div class="col-md-6">
+                                <h6 class="text-muted">Precisión (Dispersión)</h6>
+                                <p id="txt-precision" class="h5">Calculando...</p>
+                                <small class="text-muted">Consistencia entre las mediciones obtenidas.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Texto de explicacion-->
+        <div class="row justify-content-center mt-4 mb-5">
+            <div class="">
+                <div class="card bg-light border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="text-secondary border-bottom pb-2 mb-3">
+                            <i class="bi bi-journal-text"></i> Informe de Resultados
+                        </h5>
+                        
+                        <p class="text-dark lh-lg" style="text-align: justify;">
+                            Tras realizar un muestreo de 20 mediciones sobre el punto de acceso, se observa que la red presenta una exactitud aceptable pero una precisión baja. 
+                        </p>
+                        
+                        <p class="text-dark lh-lg" style="text-align: justify;">
+                            Aunque el valor promedio de las mediciones se mantiene relativamente cerca del estándar óptimo de 100 ms, existe una alta dispersión en los resultados individuales. Contamos con fluctuaciones que van desde un mínimo de 85 ms hasta picos de 120 ms, lo que representa un rango de variación de 35 ms.
+                        </p>
+
+                        <p class="text-dark lh-lg" style="text-align: justify;">
+                            Si bien la conexión cumple con el promedio prometido, es inestable: el usuario experimentará picos de latencia o inconsistencias durante el uso continuo. Para que la red sea de alta calidad, se debe reducir el margen de error entre cada medición para lograr una mayor estabilidad en el servicio.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+</html>
