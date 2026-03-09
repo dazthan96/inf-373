@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serie de Taylor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    <script src="taylor.js"></script>
+</head>
+<body>
+    <!--Barra de navegacion-->
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Serie de Taylor
+            </span>
+            <a href="../index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">La serie de Taylor</h3>
+            </div>
+            <div class="card-body">
+                
+                <p class="lead"> 
+                    La serie de Taylor, es de gran valor en el estudio de los métodos numéricos. En esencia, la serie de Taylor proporciona un medio para predecir el valor de una función en un punto en términos del valor de la función y sus derivadas en otro punto. En particular, el teorema establece que cualquier función suave puede aproximarse por un polinomio.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Ejercicio 1</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="col-md-6">
+                    <p>
+                        <strong>Objetivo:</strong>
+                        Por medio de la serie de Taylor, aproximar el valor de la siguiente hasta la 3ra. derivada.
+                    </p>
+                    <p class="text-muted">
+                        Realizar un tabla que contenga el resultado de cada grado de la serie de Taylor.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="../img/Serie de Taylor.png" class="img-fluid">
+                    <p class="text-muted">Formula general de la serie de Taylor</p>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class=""> 
+                    Para el presente ejercicio se empleará la formula f = e<sup>x</sup> tomando en cuenta que su derivada en cualquier grado es la misma e<sup>x</sup> (una derivada sencilla en si).
+                </p>
+                <p>
+                    Vamos a hallar el valor de e<sup>x</sup> cuando x = 1.5, y un valor conocido de la funcion es cuando a = 0 (a será el punto de la funcion que ya conocemos y x es el punto de la funcion que queremos aproximar).
+                </p>
+                <p>
+                    Con lo anterior, sabemos que (x - a) se simplifica a (x), asi podriamos tener la siguiente serie de taylor:
+                </p>
+                <div class="row text-center align-items-center">
+                    <math display="block">
+                        <mi>f</mi><mo>(</mo><mn>1.5</mn><mo>)</mo><mo>≈</mo>
+                        <!-- Término n=0 -->
+                        <mfrac>
+                            <mrow><msup><mi>e</mi><mn>0</mn></msup></mrow>
+                            <mrow><mn>0</mn><mo>!</mo></mrow>
+                        </mfrac>
+                        <msup><mrow><mo>(</mo><mn>1.5</mn><mo>-</mo><mn>0</mn><mo>)</mo></mrow><mn>0</mn></msup>
+                        <mo>+</mo>
+                        <!-- Término n=1 -->
+                        <mfrac>
+                            <mrow><msup><mi>e</mi><mn>0</mn></msup></mrow>
+                            <mrow><mn>1</mn><mo>!</mo></mrow>
+                        </mfrac>
+                        <msup><mrow><mo>(</mo><mn>1.5</mn><mo>-</mo><mn>0</mn><mo>)</mo></mrow><mn>1</mn></msup>
+                        <mo>+</mo>
+                        <!-- Término n=2 -->
+                        <mfrac>
+                            <mrow><msup><mi>e</mi><mn>0</mn></msup></mrow>
+                            <mrow><mn>2</mn><mo>!</mo></mrow>
+                        </mfrac>
+                        <msup><mrow><mo>(</mo><mn>1.5</mn><mo>-</mo><mn>0</mn><mo>)</mo></mrow><mn>2</mn></msup>
+                        <mo>+</mo>
+                        <!-- Término n=3 -->
+                        <mfrac>
+                            <mrow><msup><mi>e</mi><mn>0</mn></msup></mrow>
+                            <mrow><mn>3</mn><mo>!</mo></mrow>
+                        </mfrac>
+                        <msup><mrow><mo>(</mo><mn>1.5</mn><mo>-</mo><mn>0</mn><mo>)</mo></mrow><mn>3</mn></msup>
+                        </math>
+
+                </div>
+            </div>
+        </div>
+        
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Iteración (n)</th>
+                    <th>Cálculo del Término</th>
+                    <th>Valor del Término</th>
+                    <th>Suma Acumulada</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-taylor">
+                <!-- JS llenará esto -->
+            </tbody>
+        </table>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Interpretación</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="col-md-12">
+                    <p class="lead">
+                        Al utilizar una calculadora para resolver la función se obtiene que: e<sup>1.5</sup> = 4.48168907, siendo que este se podría considerar como el valor verdadero.
+                    </p>
+                    <p class="lead">
+                        La tabla de nos muestra una aproximación mediante la serie de Taylor hasta la tercera derivada y como se puede se apreciar, a medida que se aumenta nuestras n iteraciones, nuestra aproximación mediante esta seria se va acercando al valor verdadero, y este es el objetivo de la serie de Taylor, nos permitirá acercarnos al valor aproximado de una función derivable del cual se conozca el valor de un punto cualquiera de la misma funcion. 
+                    </p>
+                    <p class="text-muted">
+                        <strong>Nota: </strong>Añadiendo lo aprendido anteriormente, podemos decir que nuestro valor aproximado tiene un error absoluto de 0.29418907 o un error relativo porcentual de 29.42%, este se reduciria si seguimos aumentando las iteraciones y por ende el "grado" en el que se deriva. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propagación de Errores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    <script src="propagacion.js"></script>
+</head>
+<body>
+    <!--Barra de navegacion-->
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Propagación de errores
+            </span>
+            <a href="../index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container py-2">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Propagación</h3>
+            </div>
+            <div class="card-body">
+                
+                <p class="lead"> 
+                    El propósito de esta sección consiste en estudiar cómo los errores en los números pueden propagarse a través de las funciones matemáticas. Por ejemplo, si se multiplican dos números que tienen errores, nos gustaría estimar el error de este producto.
+                </p>
+                <p class="lead">
+                    Para lograr esto, el proceso se resume en:
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Se debe tener una función que contenga mas de 2 variables.</li>
+                        <li class="list-group-item">Se debe tener los valores para la funcion (para la anotación) como tambien la variación de cada una de sus variables </li>
+                        <li class="list-group-item">Derivar la función para cada una de las variables de contenga.</li>
+                        <li class="list-group-item">Multiplicar la funcion derivada con respecto a un variable y multiplicarla con la variacion de su respectiva variable.</li>
+                        <li class="list-group-item">Sumar cada resultado de la operacion anterior.</li>
+                    </ol>
+                </p>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Ejercicio 1</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="col-md-8">
+                    <p>
+                        <strong>Objetivo:</strong>
+                        Estimar el error de la siguiente funcion multivariable, empleando la teoria de la propagación de errores
+                    </p>
+                    <p class="text-muted">
+                        Para sintetizar la resolucion del presente ejercicio, puede apoyarse de las derivadas parciales encontradas en el libro <strong><i>Métodos Númericos para Ingenieros 7ma edición.</i></strong>
+                    </p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <math class="fs-2">
+                        <mi>y</mi><mo>=</mo>
+                        <mfrac>
+                            <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                            <mrow><mi>8</mi><mi>E</mi><mi>I</mi></mrow>
+                        </mfrac>
+                    </math>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Datos del ejercicio</h3>
+            </div>
+            <div class="row p-3 align-items-start">
+                <div class="col-md-4">
+                    <h5><strong>Datos de las variables</strong></h5>
+                    <div>
+                        <math class="fs-5">
+                        <mi>F</mi><mo>=</mo><mn>750</mn>
+                        <mfrac>
+                            <mrow><mi>N</mi></mrow>
+                            <mrow><mi>m</mi></mrow>
+                        </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                        <mi>L</mi><mo>=</mo><mn>9</mn><mi>m</mi>
+                    </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>E</mi><mo>=</mo><mn>7.5</mn><mo>*</mo><msup><mi>10</mi><mn>9</mn></msup>
+                            <mfrac>
+                                <mrow><mi>N</mi></mrow>
+                                <mrow><msup><mi>m</mi><mn>2</mn></msup></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>I</mi><mo>=</mo><mn>0.0005</mn><msup><mi>m</mi><mn>4</mn></msup>
+                        </math>
+                    </div> 
+                </div>
+                <div class="col-md-4">
+                    <h5><strong>Error de cada variable</strong></h5>
+                    <div>
+                        <math class="fs-5">
+                        <mi>&Delta;F</mi><mo>=</mo><mn>30</mn>
+                        <mfrac>
+                            <mrow><mi>N</mi></mrow>
+                            <mrow><mi>m</mi></mrow>
+                        </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                        <mi>&Delta;L</mi><mo>=</mo><mn>0.03</mn><mi>m</mi>
+                    </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;E</mi><mo>=</mo><mn>5</mn><mo>*</mo><msup><mi>10</mi><mn>7</mn></msup>
+                            <mfrac>
+                                <mrow><mi>N</mi></mrow>
+                                <mrow><msup><mi>m</mi><mn>2</mn></msup></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;I</mi><mo>=</mo><mn>0.000005</mn><msup><mi>m</mi><mn>4</mn></msup>
+                        </math>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5><strong>Derivadas parciales</strong></h5>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(F)</mi><mo>=</mo>
+                            <mfrac>
+                                <mrow><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                <mrow><mi>8</mi>
+                                <mi>E</mi>
+                                <mi>I</mi></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(L)</mi><mo>=</mo>
+                            <mfrac>
+                                <mrow><mi>F</mi><msup><mi>L</mi><mn>3</mn></msup></mrow>
+                                <mrow><mi>2</mi><mi>E</mi><mi>I</mi></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(E)</mi><mo>=</mo>
+                            <mfrac>
+                                <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                <mrow><mi>8</mi><msup><mi>E</mi><mn>2</mn></msup><mi>I</mi></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(I)</mi><mo>=</mo>
+                            <mfrac>
+                                <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                <mrow><mi>8</mi><mi>E</mi><msup><mi>I</mi><mn>2</mn></msup></mrow>
+                            </mfrac>
+                        </math>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card my-4">
+            <div class="card-header">
+                <h3>Resultados</h3>
+            </div>
+            <div class="row p-3 align-items-start">
+                <div class="col-md-4">
+                    <div class="card border-0">
+                        <h5 class="card-title">Hallando el valor de la funcion</h5>
+                        <div class="card-body">
+                            <math class="fs-4">
+                        <mi>y</mi><mo>=</mo>
+                        <mfrac>
+                            <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                            <mrow><mi>8</mi><mi>E</mi><mi>I</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mi id="res-funcion-1"></mi>
+                    </math>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0">
+                        <h5 class="card-tilte">Hallando el valor de la derivadas</h5>
+                        <div>
+                            <math class="fs-5">
+                            <mi>&Delta;y(F)</mi><mo>=</mo>
+                            <mfrac>
+                                <mrow><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                <mrow><mi>8</mi>
+                                <mi>E</mi>
+                                <mi>I</mi></mrow>
+                            </mfrac>
+                            <mo>=</mo><mi id="delta-f"></mi>
+                        </math>
+                        </div>
+                        <div>
+                            <math class="fs-5">
+                                <mi>&Delta;y(L)</mi><mo>=</mo>
+                                <mfrac>
+                                    <mrow><mi>F</mi><msup><mi>L</mi><mn>3</mn></msup></mrow>
+                                    <mrow><mi>2</mi><mi>E</mi><mi>I</mi></mrow>
+                                </mfrac><mo>=</mo><mi id="delta-l"></mi>
+                            </math>
+                        </div>
+                        <div>
+                            <math class="fs-5">
+                                <mi>&Delta;y(E)</mi><mo>=</mo>
+                                <mfrac>
+                                    <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                    <mrow><mi>8</mi><msup><mi>E</mi><mn>2</mn></msup><mi>I</mi></mrow>
+                                </mfrac><mo>=</mo><mi id="delta-e"></mi>
+                            </math>
+                        </div>
+                        <div>
+                            <math class="fs-5">
+                                <mi>&Delta;y(I)</mi><mo>=</mo>
+                                <mfrac>
+                                    <mrow><mi>F</mi><msup><mi>L</mi><mn>4</mn></msup></mrow>
+                                    <mrow><mi>8</mi><mi>E</mi><msup><mi>I</mi><mn>2</mn></msup></mrow>
+                                </mfrac><mo>=</mo><mi id="delta-i"></mi>
+                            </math>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0">
+                        <h5 class="card-title">Hallando el valor de las multiplicaciones</h5>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(F)</mi><mo>*</mo><mi>&Delta;F</mi><mo>=</mo><mi id="multi-f"></mi>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(L)</mi><mo>*</mo><mi>&Delta;L</mi><mo>=</mo><mi id="multi-l"></mi>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(E)</mi><mo>*</mo><mi>&Delta;E</mi><mo>=</mo><mi id="multi-e"></mi>
+                        </math>
+                    </div>
+                    <div>
+                        <math class="fs-5">
+                            <mi>&Delta;y(I)</mi><mo>*</mo><mi>&Delta;I</mi><mo>=</mo><mi id="multi-i"></mi>
+                        </math>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <p class="lead"><strong>Interpretacion: </strong>Para encontrar el resultado de nuestra propagación de errores de una función multivariable, simplemente debemos sumar las multiplicaciones.</p>
+                <p class="lead">Hallada la suma, simplemente realizamos la siguiente anotacion que incluira nuestra incertidumbre</p>
+                <div class="row text-center">
+                    <math class="fs-3">
+                        <mi>y</mi><mo>=</mo><mi id="res-funcion-2"></mi><mo>&plusmn;</mo><mi id="error"></mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
