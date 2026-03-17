@@ -34,4 +34,7 @@ function llenar_datos(){
     }
 }
 
-window.onload =llenar_datos;
+window.onload = function(){
+    llenar_datos();
+    llenar_datos_taylor();
+};

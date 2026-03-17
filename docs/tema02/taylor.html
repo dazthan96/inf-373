@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
     <script src="taylor.js"></script>
+    <script src="taylor2.js"></script>
 </head>
 <body>
     <!--Barra de navegacion-->
@@ -129,6 +130,92 @@
                     </p>
                 </div>
             </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Ejercicio 2</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="col-md-6">
+                    <p>
+                        Imagina que esta observando un aguila en la cima de un arbol. Quieres saber la distancia horizontal D basandote en el angulo de elevaciony la altura del arbol.
+                    </p>
+                    <p class="text-muted">
+                        Realizar un tabla que contenga el resultado de cada grado de la serie de Taylor.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <math class="fs-3">
+                        <mi>F(x) </mi><mn>=</mn> <mi> sin(x)</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body text-center" >
+                <p class=""> 
+                    Lo primero que debemos saber es un valor conocido y el valor al que queremos llegar, para nuestra funcion mostrada anteriormente:
+                </p>
+                <div>
+                    <math class="fs-3">
+                        <mn>F(0)</mn><mo>=</mo><mi>0</mi>
+                    </math>
+                </div>
+                <div>
+                    <math class="fs-3">
+                        <mn>F(1)</mn><mo>=</mo><mi>0.841471</mi>
+                    </math>
+                </div>
+                <p>
+                    Una particularidad con la funcion que vamos a trabajar es que existe un patrón que se repite, se tiene la funcion sin derivar, la primer derivada, la segunda derivada y la tercer derivada; y esto se repite en un ciclo en este mismo orden.
+                </p>
+                <div class="row">
+                    <div class="col-md-3 card-body text-center">
+                        <math class="fs-3">
+                            <mi>sin(x)</mi>
+                        </math>
+                    </div>
+                    <div class="col-md-3 card-body text-center">
+                        <math class="fs-3">
+                            <mi>cos(x)</mi>
+                        </math>
+                    </div>
+                    <div class="col-md-3 card-body text-center">
+                        <math class="fs-3">
+                            <mi>-sin(x)</mi>
+                        </math>
+                    </div>
+                    <div class="col-md-3 card-body text-center">
+                        <math class="fs-3">
+                            <mi>-cos(x)</mi>
+                        </math>
+                    </div>
+                </div>
+                <p>
+                    Con estas consideraciones, podemos empezar a realizar la tabla con los valores tal y como se hizo en clase 
+                </p>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Iteración (n)</th>
+                    <th>Valor Aproximado</th>
+                    <th>Valor del termino</th>
+                    <th>Valor de la derivada</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-taylor-ii">
+                <!-- JS llenará esto -->
+            </tbody>
+        </table>
+        <div class="card-body">
+            <p class="lead"> 
+                En la parte de arriba, podemos ver una tabla de valores usando la serie de Taylor hasta 10 terminos, usamos una funciona sencilla que tiene un patron que se puede aprovechar para realizar cuantas derivaciones se quieran.
+            </p>
+            <p class="lead">
+                En la siguiente seccion de propagacion de errores, veremos como el error de esta funcion se fue propagando.
+            </p>
         </div>
     </div>
 </body>

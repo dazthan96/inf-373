@@ -29,5 +29,8 @@ function llenar_datos(){
     document.getElementById("multi-i").innerHTML=error_i.toFixed(5);
     document.getElementById("error").innerHTML=error;
 }
-window.onload = llenar_datos;
+window.onload = function(){
+    llenar_datos();
+    llenar_datos_2();
+}
 

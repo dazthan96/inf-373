@@ -14,12 +14,12 @@ def taylor_angulo(iteracion:int):
     print(f"#\tfuncion\t\ttermino\t\tderi")
     sum = 0
     for i in range(0,iteracion):
-        valor_i_f = calculo_valor(i,0)
-        factorial_i = math.factorial(i)
-        diferencia = (1 - 0)**i
-        res = (valor_i_f*diferencia)/(factorial_i)
-        sum = sum + res
-        print(f"{i}\t{sum:.6f}\t{res:.6f}\t{valor_i_f:.6f}")
+        k=i+1
+        valor_derivada = calculo_valor(k,0)
+        factorial_k = math.factorial(k)
+        termino = (valor_derivada*(1-0)**k)/(factorial_k)
+        print(f"{i}\t{sum:.6f}\t{termino:.6f}\t{valor_derivada:.6f}")
+        sum = sum + termino
 
 def propagacion(h, x_deg, error_x, error_h):
     cot_x = 1/math.tan(x_deg)
