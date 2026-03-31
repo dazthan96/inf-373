@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacobi y Seidel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Metodo Jacobi-Seidel
+            </span>
+            <a href="../index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container p-2">
+        <div class="text-center mb-5">
+            <h1 class="display-6 fw-bold text-dark">Metodo Jacobi</h1>
+        </div>
+            <!-- PASO 1 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">El Sistema de Ecuaciones Original</h4>
+                </div>
+                <p class="text-secondary">Tomaremos un sistema de 3x3 donde la diagonal principal es estrictamente dominante para asegurar que el método funcione:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    (Ecuación 1) &nbsp; 10x₁ - 1x₂ + 2x₃ = 6<br>
+                    (Ecuación 2) &nbsp;-1x₁ + 11x₂ - 1x₃ = 25<br>
+                    (Ecuación 3) &nbsp; 2x₁ - 1x₂ + 10x₃ = -11
+                </div>
+            </div>
+        </div>
+        <!-- PASO 2 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Despeje de las Variables</h4>
+                </div>
+                <p class="text-secondary">Despejamos x₁ de la primera ecuación, x₂ de la segunda y x₃ de la tercera. Las fórmulas resultantes son las que usaremos en cada iteración:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    x₁ = [ 6 - (-1x₂) - (2x₃) ] / 10<br><br>
+                    x₂ = [ 25 - (-1x₁) - (-1x₃) ] / 11<br><br>
+                    x₃ = [ -11 - (2x₁) - (-1x₂) ] / 10
+                </div>
+            </div>
+        </div>
+        <!-- PASO 3 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    
+                    <h4 class="mb-0 fw-bold">Proceso de Iteración</h4>
+                </div>
+                <p class="text-secondary">Para comenzar el método, necesitamos proponer valores iniciales. Usaremos el vector nulo estándar: <strong>x₁ = 0</strong>, <strong>x₂ = 0</strong>, <strong>x₃ = 0</strong>.</p>
+                
+                <div class="alert alert-warning d-flex align-items-center small">
+                    <div>
+                        <strong>Regla de Jacobi:</strong> Durante una iteración completa, las operaciones del lado derecho de la igualdad SIEMPRE utilizan los valores de la iteración anterior. No se mezclan valores nuevos.
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 1 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 1 (k = 1)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        <p class="text-muted mb-2">// Sustituimos x₁ = 0, x₂ = 0, x₃ = 0 en los despejes:</p>
+                        
+                        <div class="mb-3">
+                            x₁⁽¹⁾ = [ 6 - (-1 × 0) - (2 × 0) ] / 10<br>
+                            x₁⁽¹⁾ = [ 6 - 0 - 0 ] / 10 = 6 / 10 = <strong>0.60000</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂⁽¹⁾ = [ 25 - (-1 × 0) - (-1 × 0) ] / 11<br>
+                            x₂⁽¹⁾ = [ 25 - 0 - 0 ] / 11 = 25 / 11 = <strong>2.27273</strong>
+                        </div>
+
+                        <div>
+                            x₃⁽¹⁾ = [ -11 - (2 × 0) - (-1 × 0) ] / 10<br>
+                            x₃⁽¹⁾ = [ -11 - 0 - 0 ] / 10 = -11 / 10 = <strong>-1.10000</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-2">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 2 (k = 2)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        <p class="text-muted mb-2">// Ahora sustituimos los resultados anteriores: x₁ = 0.60000, x₂ = 2.27273, x₃ = -1.10000</p>
+                        
+                        <div class="mb-3">
+                            x₁⁽²⁾ = [ 6 - (-1 × 2.27273) - (2 × -1.10000) ] / 10<br>
+                            x₁⁽²⁾ = [ 6 + 2.27273 + 2.20000 ] / 10<br>
+                            x₁⁽²⁾ = [ 10.47273 ] / 10 = <strong>1.04727</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂⁽²⁾ = [ 25 - (-1 × 0.60000) - (-1 × -1.10000) ] / 11<br>
+                            x₂⁽²⁾ = [ 25 + 0.60000 - 1.10000 ] / 11<br>
+                            x₂⁽²⁾ = [ 24.50000 ] / 11 = <strong>2.22727</strong>
+                        </div>
+
+                        <div>
+                            x₃⁽²⁾ = [ -11 - (2 × 0.60000) - (-1 × 2.27273) ] / 10<br>
+                            x₃⁽²⁾ = [ -11 - 1.20000 + 2.27273 ] / 10<br>
+                            x₃⁽²⁾ = [ -9.92727 ] / 10 = <strong>-0.99273</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center mb-5">
+            <h1 class="display-6 fw-bold text-dark">Metodo Seidel</h1>
+        </div>
+        <!-- PASO 1 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">El Sistema de Ecuaciones Original</h4>
+                </div>
+                <p class="text-secondary">Utilizaremos exactamente el mismo sistema de 3x3 del ejercicio anterior para que puedas comparar ambos comportamientos:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    (Ecuación 1) &nbsp; 10x₁ - 1x₂ + 2x₃ = 6<br>
+                    (Ecuación 2) &nbsp;-1x₁ + 11x₂ - 1x₃ = 25<br>
+                    (Ecuación 3) &nbsp; 2x₁ - 1x₂ + 10x₃ = -11
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Despeje de las Variables</h4>
+                </div>
+                <p class="text-secondary">Los despejes matemáticos son idénticos a los de Jacobi. Lo que cambiará por completo es el orden en el que introduciremos los datos:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    x₁ = [ 6 - (-1x₂) - (2x₃) ] / 10<br><br>
+                    x₂ = [ 25 - (-1x₁) - (-1x₃) ] / 11<br><br>
+                    x₃ = [ -11 - (2x₁) - (-1x₂) ] / 10
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Proceso de Iteración</h4>
+                </div>
+                <p class="text-secondary">Asumimos los mismos valores iniciales de partida: <strong>x₁ = 0</strong>, <strong>x₂ = 0</strong>, <strong>x₃ = 0</strong>.</p>
+                
+                <div class="alert alert-info d-flex align-items-center small">
+                    <div>
+                        <strong>Regla de Gauss-Seidel:</strong> A diferencia de Jacobi, en cuanto calculamos un nuevo valor para una variable, lo usamos DE INMEDIATO para calcular las siguientes variables dentro de esa misma iteración.
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 1 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 1 (k = 1)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₁ usando los valores iniciales (x₂ = 0, x₃ = 0):</p>
+                            x₁⁽¹⁾ = [ 6 - (-1 × 0) - (2 × 0) ] / 10<br>
+                            x₁⁽¹⁾ = [ 6 - 0 - 0 ] / 10 = 6 / 10 = <strong>0.60000</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₂ usando el NUEVO x₁ (0.60000) y el viejo x₃ (0):</p>
+                            x₂⁽¹⁾ = [ 25 - (-1 × 0.60000) - (-1 × 0) ] / 11<br>
+                            x₂⁽¹⁾ = [ 25 + 0.60000 - 0 ] / 11 = 25.6 / 11 = <strong>2.32727</strong>
+                        </div>
+
+                        <div>
+                            <p class="text-muted mb-1">// Calculamos x₃ usando el NUEVO x₁ (0.60000) y el NUEVO x₂ (2.32727):</p>
+                            x₃⁽¹⁾ = [ -11 - (2 × 0.60000) - (-1 × 2.32727) ] / 10<br>
+                            x₃⁽¹⁾ = [ -11 - 1.20000 + 2.32727 ] / 10<br>
+                            x₃⁽¹⁾ = [ -9.87273 ] / 10 = <strong>-0.98727</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-2">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 2 (k = 2)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₁ usando los últimos valores disponibles (x₂ = 2.32727, x₃ = -0.98727):</p>
+                            x₁⁽²⁾ = [ 6 - (-1 × 2.32727) - (2 × -0.98727) ] / 10<br>
+                            x₁⁽²⁾ = [ 6 + 2.32727 + 1.97454 ] / 10<br>
+                            x₁⁽²⁾ = [ 10.30181 ] / 10 = <strong>1.03018</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₂ usando el NUEVO x₁ (1.03018) y el viejo x₃ (-0.98727):</p>
+                            x₂⁽²⁾ = [ 25 - (-1 × 1.03018) - (-1 × -0.98727) ] / 11<br>
+                            x₂⁽²⁾ = [ 25 + 1.03018 - 0.98727 ] / 11<br>
+                            x₂⁽²⁾ = [ 25.04291 ] / 11 = <strong>2.27663</strong>
+                        </div>
+
+                        <div>
+                            <p class="text-muted mb-1">// Calculamos x₃ usando el NUEVO x₁ (1.03018) y el NUEVO x₂ (2.27663):</p>
+                            x₃⁽²⁾ = [ -11 - (2 × 1.03018) - (-1 × 2.27663) ] / 10<br>
+                            x₃⁽²⁾ = [ -11 - 2.06036 + 2.27663 ] / 10<br>
+                            x₃⁽²⁾ = [ -10.78373 ] / 10 = <strong>-1.07837</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
