@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacobi Seidel y LU</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Ejercicio 2
+            </span>
+            <a href="../index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container p-2">
+        <!-- contexto del ejercicio -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Desafio 1</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="col-md-6">
+                    <p>
+                        <strong>Contexto</strong>
+                        Una empresa factura servicios de Estrategia (x), Diseño (y) y Soporte (z). Para equilibrar sus costos y asegurar estabilidad numérica, las metas son:
+                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Predominio de Estrategia:</strong> El cuádruple de la Estrategia más el Diseño y el Soporte suman $22,000.</li>
+                        <li class="list-group-item"><strong>Predominio de Diseño:</strong> La Estrategia más el quíntuple del Diseño más el doble del Soporte suman $33,000.</li>
+                        <li class="list-group-item"><strong>Predominio de Soporte:</strong> La Estrategia más el Diseño más el triple del Soporte suman $19,000.</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="../img/desafio2.png" class="img-fluid">
+                </div>
+            </div>
+        </div>    
+        <!-- jacobi -->
+        <div class="text-center">
+            <h1 class="display-6 fw-bold text-dark">Metodo Jacobi</h1>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">El Sistema de Ecuaciones Original</h4>
+                </div>
+                <p class="text-secondary">Tomaremos un sistema de 3x3 donde la diagonal principal es estrictamente dominante para asegurar que el método funcione:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    (Ecuación 1) &nbsp; 4x₁ + 1x₂ + 1x₃ = 22000<br>
+                    (Ecuación 2) &nbsp; 1x₁ + 5x₂ + 2x₃ = 33000<br>
+                    (Ecuación 3) &nbsp; 1x₁ + 1x₂ + 3x₃ = 19000
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Despeje de las Variables</h4>
+                </div>
+                <p class="text-secondary">Despejamos x₁ de la primera ecuación, x₂ de la segunda y x₃ de la tercera. Las fórmulas resultantes son las que usaremos en cada iteración:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    x₁ = [ 22000 -1x₂ - 1x₃ ] / 4<br><br>
+                    x₂ = [ 33000 -1x₁ -2x₃ ] / 5<br><br>
+                    x₃ = [ 19000 - 1x₁ -1x₂ ] / 3
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    
+                    <h4 class="mb-0 fw-bold">Proceso de Iteración</h4>
+                </div>
+                <p class="text-secondary">Para comenzar el método, necesitamos proponer valores iniciales. Usaremos el vector nulo estándar: <strong>x₁ = 0</strong>, <strong>x₂ = 0</strong>, <strong>x₃ = 0</strong>.</p>
+                
+                <div class="alert alert-info d-flex align-items-center small">
+                    <div>
+                        <strong>Regla de Jacobi:</strong> Durante una iteración completa, las operaciones del lado derecho de la igualdad SIEMPRE utilizan los valores de la iteración anterior. No se mezclan valores nuevos.
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 1 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 1 (k = 1)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        <p class="text-muted mb-2">Sustituimos x₁ = 0, x₂ = 0, x₃ = 0 en los despejes:</p>
+                        
+                        <div class="mb-3">
+                            x₁ = <strong>5500</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂ = <strong>6600</strong>
+                        </div>
+
+                        <div>
+                            x₃ = <strong>6333.33</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 2 (k = 2)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        <p class="text-muted mb-2">Sustituimos x₁ = 5500, x₂ = 6600, x₃ = 6333.33 en los despejes:</p>
+                        
+                        <div class="mb-3">
+                            x₁ = <strong>2266.67</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂ = <strong>2966.67</strong>
+                        </div>
+
+                        <div>
+                            x₃ = <strong>2300.00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 2 (k = 2)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        <p class="text-muted mb-2">En un archivo excel, hasta donde se decida, nosotros iteramos 10 veces teniendo los siguientes resultados: </p>
+                        
+                        <div class="mb-3">
+                            x₁ = <strong>3449.80</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂ = <strong>4404.36</strong>
+                        </div>
+
+                        <div>
+                            x₃ = <strong>3679.95</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- seidel -->    
+        <div class="text-center">
+            <h1 class="display-6 fw-bold text-dark">Metodo Seidel</h1>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">El Sistema de Ecuaciones Original</h4>
+                </div>
+                <p class="text-secondary">Tomaremos un sistema de 3x3 donde la diagonal principal es estrictamente dominante para asegurar que el método funcione:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    (Ecuación 1) &nbsp; 4x₁ + 1x₂ + 1x₃ = 22000<br>
+                    (Ecuación 2) &nbsp; 1x₁ + 5x₂ + 2x₃ = 33000<br>
+                    (Ecuación 3) &nbsp; 1x₁ + 1x₂ + 3x₃ = 19000
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Despeje de las Variables</h4>
+                </div>
+                <p class="text-secondary">Despejamos x₁ de la primera ecuación, x₂ de la segunda y x₃ de la tercera. Las fórmulas resultantes son las que usaremos en cada iteración:</p>
+                
+                <div class="bg-light border-start border-primary border-4 p-3 rounded font-monospace">
+                    x₁ = [ 22000 -1x₂ - 1x₃ ] / 4<br><br>
+                    x₂ = [ 33000 -1x₁ -2x₃ ] / 5<br><br>
+                    x₃ = [ 19000 - 1x₁ -1x₂ ] / 3
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <h4 class="mb-0 fw-bold">Proceso de Iteración</h4>
+                </div>
+                <p class="text-secondary">Asumimos los mismos valores iniciales de partida: <strong>x₁ = 0</strong>, <strong>x₂ = 0</strong>, <strong>x₃ = 0</strong>.</p>
+                
+                <div class="alert alert-info d-flex align-items-center small">
+                    <div>
+                        <strong>Regla de Gauss-Seidel:</strong> A diferencia de Jacobi, en cuanto calculamos un nuevo valor para una variable, lo usamos DE INMEDIATO para calcular las siguientes variables dentro de esa misma iteración.
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 1 -->
+                <div class="border rounded mb-3">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 1 (k = 1)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₁ usando los valores iniciales (x₂ = 0, x₃ = 0):</p>
+                            x₁ = <strong>5500</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₂ usando el NUEVO x₁ (5500) y el viejo x₃ (0):</p>
+                            x₂ = <strong>5500</strong>
+                        </div>
+
+                        <div>
+                            <p class="text-muted mb-1">// Calculamos x₃ usando el NUEVO x₁ (5500) y el NUEVO x₂ (5500):</p>
+                            x₃ = <strong>2666.67</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-2">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Iteración 2 (k = 2)</div>
+                    <div class="card-body bg-white font-monospace small">
+                        
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₁ usando los últimos valores disponibles (x₂ = 5500, x₃ = 2666.67):</p>
+                            x₁ = <strong>3458.33</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="text-muted mb-1">// Calculamos x₂ usando el NUEVO x₁ (3458.33) y el viejo x₃ (2666.67):</p>
+                            x₂ = <strong>4841.67</strong>
+                        </div>
+
+                        <div>
+                            <p class="text-muted mb-1">// Calculamos x₃ usando el NUEVO x₁ (3458.33) y el NUEVO x₂ (4841.67):</p>
+                            x₃ = <strong>3566.67</strong>
+                        </div>
+                    </div>
+                </div>
+                <!-- ITERACIÓN 2 -->
+                <div class="border rounded mb-2">
+                    <div class="bg-light border-bottom p-2 fw-bold text-primary">Despues de 10 iteraciones</div>
+                    <div class="card-body bg-white font-monospace small">
+                        
+                        <div class="mb-3">
+                            x₁ = <strong>3468.08</strong>
+                        </div>
+
+                        <div class="mb-3">
+                            x₂ = <strong>4425.53</strong>
+                        </div>
+
+                        <div>
+                            x₃ = <strong>3702.13</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- descomposicion LU -->
+        <div class="text-center">
+            <h1 class="display-6 fw-bold text-dark">Descomposicion LU</h1>
+        </div>
+        <div class="container py-2">
+            <div class="row g-4 mb-5">
+            <div class="col-md-8">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-dark text-white fw-bold">Matriz de Coeficientes (A)</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <table class="table table-bordered border-dark text-center font-monospace w-75 mb-0 h4">
+                            <tr><td>4</td><td>1</td><td>1</td></tr>
+                            <tr><td>1</td><td>5</td><td>2</td></tr>
+                            <tr><td>1</td><td>1</td><td>3</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-dark text-white fw-bold">Vector Términos Independientes (B)</div>
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <table class="table table-bordered border-dark text-center font-monospace w-50 mb-0 h4">
+                            <tr class="table-secondary"><td>22000</td></tr>
+                            <tr class="table-secondary"><td>33000</td></tr>
+                            <tr class="table-secondary"><td>19000</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: FACTORIZACIÓN LU -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white fw-bold">Matriz L</div>
+                    <div class="card-body">
+                        <table class="table table-bordered text-center font-monospace">
+                            <tr><td class="bg-light">1</td><td>0</td><td>0</td></tr>
+                            <tr><td>0.25</td><td class="bg-light">1</td><td>0</td></tr>
+                            <tr><td>00.25</td><td>0.157894</td><td class="bg-light">1</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white fw-bold">Matriz U</div>
+                    <div class="card-body">
+                        <table class="table table-bordered text-center font-monospace">
+                            <tr><td>4</td><td>1</td><td>1</td></tr>
+                            <tr><td>0</td><td>4.75</td><td>1.75</td></tr>
+                            <tr><td>0</td><td>0</td><td>2.474684</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: MATRICES INVERSAS -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-dark fw-bold">Inversa de L (L⁻¹)</div>
+                    <div class="card-body">
+                        <table class="table table-bordered text-center font-monospace">
+                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                            <tr><td>-0.25</td><td>1</td><td>0</td></tr>
+                            <tr><td>-0.210526</td><td>-0.157894</td><td>1</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-dark fw-bold">Inversa de U (U⁻¹)</div>
+                    <div class="card-body">
+                        <table class="table table-bordered text-center font-monospace">
+                            <tr><td>0.25</td><td>-0.052631</td><td>-0.0638297</td></tr>
+                            <tr><td>0</td><td>0.210526</td><td>-0.148936</td></tr>
+                            <tr><td>0</td><td>0</td><td>0.4042255319</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: RESULTADOS FINALES -->
+        <div class="row g-4">
+            <!-- Vector D -->
+            <div class="col-md-6">
+                <div class="card border-primary border-2 shadow">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-primary">Vector D</h5>
+                        <p class="small font-monospace text-muted">D = L⁻¹ × B</p>
+                        <div class="d-flex justify-content-center">
+                            <table class="table table-bordered border-primary text-center w-50 font-monospace h5">
+                                <tr><td>22000</td></tr>
+                                <tr><td>27500</td></tr>
+                                <tr><td>9157.89</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Vector X -->
+            <div class="col-md-6">
+                <div class="card border-success border-2 shadow">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-success">Vector Solución X</h5>
+                        <p class="small font-monospace text-muted">X = U⁻¹ × D</p>
+                        <div class="d-flex justify-content-center">
+                            <table class="table table-bordered border-success text-center w-50 font-monospace h5">
+                                <tr class="table-success"><td>x = 3468.09</td></tr>
+                                <tr class="table-success"><td>y = 4425.53</td></tr>
+                                <tr class="table-success"><td>z = 3702.13</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- interpretacion de datos -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">Intepretacion</h3>
+            </div>
+            <div class="row p-3 align-items-center">
+                <div class="px-2">
+                    <p>
+                        Considerando los montos obtenidos en el contexto de la consultora, la interpretación es la siguiente:
+                    </p>
+                    <p>
+                        Para cumplir con las metas de facturación y los compromisos contractuales establecidos, la empresa debe distribuir su operación de la siguiente manera:
+                    </p>
+                    <ul class="list">
+                        <li class="list-group-item"><strong>Estrategia: </strong>Debe generar un ingreso de $3,468.08. Este departamento actúa como el motor de apertura, teniendo una carga operativa moderada pero una meta de facturación específica que cumplir.</li>
+                        <li class="list-group-item"><strong>Diseño: </strong>Es el área con mayor actividad económica, requiriendo una facturación de $4,425.53. Esto indica que el Diseño es el servicio más demandado o el que mayor volumen de trabajo aporta al flujo de caja total de la consultora.</li>
+                        <li class="list-group-item"><strong>Soporte: </strong>Debe aportar $3,702.13. Este valor representa el mantenimiento y la atención post-venta necesarios para equilibrar los costos operativos fijos de la estructura.
+                    </ul>
+                    <p>
+                        Para que la consultora alcance el equilibrio financiero proyectado de los $74,000 totales (suma de las tres metas), el Diseño debe ser la prioridad comercial, seguido de cerca por el Soporte, dejando a la Estrategia como un componente de alto valor pero de menor volumen transaccional.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
