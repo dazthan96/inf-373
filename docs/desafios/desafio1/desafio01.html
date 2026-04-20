@@ -157,6 +157,8 @@
                                 <button class="btn btn-primary mt-2" onclick="ejecutarLU()" >Descomposicion LU</button>
                                 <button class="btn btn-primary mt-2" onclick="llenarJacobi()" >Jacobi</button>
                                 <button class="btn btn-primary mt-2" onclick="llenarSeidel()" >Seidel</button>
+                                <button class="btn btn-primary mt-2" onclick="llenarSor()" >Sor</button>
+                                <button class="btn btn-primary mt-2" onclick="llenarGPC()" >Gradiente</button>
                             </div>
                         </div>
                         
@@ -294,7 +296,10 @@
                                                     <p>
                                                         Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
                                                     </p>
-                                                    <dic class="text-center">
+                                                    <p>
+                                                        En este escenario, el método convergerá de manera estable y progresiva hacia la solución, aunque requerirá un número de iteraciones mayor al de sus variantes para alcanzar un error cercano a cero debido a su naturaleza de actualización simultánea. 
+                                                    </p>
+                                                    <div class="text-center">
                                                         <div class="ecuacion">
                                                             (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                             (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
@@ -315,7 +320,7 @@
                                                             <strong>Para z:</strong><br>
                                                             z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
                                                         </div>
-                                                    </dic>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -435,36 +440,34 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <p>
-                                                        La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                        Este método es una mejora directa de Jacobi. Se basa en el mismo principio de despeje, pero con una diferencia fundamental en la actualización de datos.
                                                     </p>
                                                     <p>
-                                                        Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                        A diferencia de Jacobi, en cuanto calculamos el nuevo valor de una variable (por ejemplo, x), lo utilizamos inmediatamente para calcular la siguiente (y) dentro de la misma iteración. Esto permite que el método utilice información más reciente y converja a la solución en menos pasos.
                                                     </p>
                                                     <p>
-                                                        Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                        En las fórmulas de abajo, observa cómo los valores calculados en la iteración actual (k+1) se integran al instante en los siguientes despejes.
                                                     </p>
-                                                    <dic class="text-center">
+                                                    <p>
+                                                        Logrará la convergencia en aproximadamente la mitad de iteraciones que Jacobi, mostrando una reducción drástica del error desde los primeros pasos al aprovechar inmediatamente la información actualizada de cada variable calculada.
+                                                    </p>
+                                                    <div class="text-center">
                                                         <div class="ecuacion">
                                                             (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                             (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
                                                             (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
                                                         </div>
                                                         <div class="despeje">
-                                                            <!-- Despeje de X -->
                                                             <strong>Para x:</strong><br>
                                                             x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
                                                             <br><br>
-
-                                                            <!-- Despeje de Y -->
                                                             <strong>Para y:</strong><br>
-                                                            y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                            y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k+1</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
                                                             <br><br>
-
-                                                            <!-- Despeje de Z -->
                                                             <strong>Para z:</strong><br>
-                                                            z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                            z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k+1</sub> - a<sub>32</sub>y<sub>k+1</sub>) / a<sub>33</sub>
                                                         </div>
-                                                    </dic>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -575,7 +578,128 @@
                                 </h2>
                                 <div id="collapseSOR_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
                                 <div class="accordion-body">
-                                    <p>Contenido para el método SOR.</p>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Sobre Relajacion Sucesiva</h3>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p>
+                                                        El método de Sobrerrelajación Sucesiva (SOR) busca acelerar la convergencia de Gauss-Seidel mediante el uso de un factor de peso llamado omega (ω).
+                                                    </p>
+                                                    <p>
+                                                        Con un factor ω de 1.2, el método toma el valor sugerido por Gauss-Seidel y lo "empuja" un poco más en esa dirección, asumiendo que así llegará más rápido al resultado final. Es un promedio ponderado entre el valor de la iteración anterior y el nuevo cálculo.
+                                                    </p>
+                                                    <p>
+                                                        Este método es especialmente útil cuando los sistemas son grandes o cuando los métodos tradicionales tardan demasiadas iteraciones en estabilizarse.
+                                                    </p>
+                                                    <p>
+                                                        Presentará la convergencia más rápida de los tres métodos de despeje, "saltando" hacia el resultado final gracias al factor de aceleración, lo que resultará en un error máximo residual casi imperceptible al llegar a la iteración 10.
+                                                    </p>
+                                                    <div class="text-center">
+                                                        <div class="despeje border p-2">
+                                                            <strong>Fórmula de Relajación:</strong><br>
+                                                            Variable<sub>nuevo</sub> = (1 - ω) * Variable<sub>k</sub> + ω * (Cálculo_Seidel)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Tabla de Iteraciones</h3>
+                                            </div>
+                                            <table class="table table-bordered border-success">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Iter.</th>
+                                                        <th scope="col">x<sub>1</sub></th>
+                                                        <th scope="col">x<sub>2</sub></th>
+                                                        <th scope="col">x<sub>3</sub></th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td id="sor_01_ideal">0</td>
+                                                            <td id="sor_02_ideal">0</td>
+                                                            <td id="sor_03_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td id="sor_11_ideal">0</td>
+                                                            <td id="sor_12_ideal">0</td>
+                                                            <td id="sor_13_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td id="sor_21_ideal">0</td>
+                                                            <td id="sor_22_ideal">0</td>
+                                                            <td id="sor_23_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td id="sor_31_ideal">0</td>
+                                                            <td id="sor_32_ideal">0</td>
+                                                            <td id="sor_33_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td id="sor_41_ideal">0</td>
+                                                            <td id="sor_42_ideal">0</td>
+                                                            <td id="sor_43_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td id="sor_51_ideal">0</td>
+                                                            <td id="sor_52_ideal">0</td>
+                                                            <td id="sor_53_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td id="sor_61_ideal">0</td>
+                                                            <td id="sor_62_ideal">0</td>
+                                                            <td id="sor_63_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td id="sor_71_ideal">0</td>
+                                                            <td id="sor_72_ideal">0</td>
+                                                            <td id="sor_73_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td id="sor_81_ideal">0</td>
+                                                            <td id="sor_82_ideal">0</td>
+                                                            <td id="sor_83_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td id="sor_91_ideal">0</td>
+                                                            <td id="sor_92_ideal">0</td>
+                                                            <td id="sor_93_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td id="sor_101_ideal">0</td>
+                                                            <td id="sor_102_ideal">0</td>
+                                                            <td id="sor_103_ideal">0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </thead>
+                                            </table>
+                                            <div class="mt-1 mb-1">
+                                                <p>
+                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                </p>
+                                                <div class="text-center">
+                                                    <p>E_rel = <strong id="e_rel_sor_ideal">0</strong></p>
+                                                    <p>E_rel_% = <strong id="e_rel_sor_por_ideal">0</strong>%</p>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 </div>
                             </div>
@@ -589,7 +713,129 @@
                                 </h2>
                                 <div id="collapseGradiente_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
                                 <div class="accordion-body">
-                                    <p>Contenido para Gradiente Conjugado.</p>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Gradiente Conjugado Precondicionado</h3>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p>
+                                                        A diferencia de los métodos anteriores, este no utiliza despejes algebraicos directos, sino que se basa en la minimización de una función cuadrática asociada al sistema.
+                                                    </p>
+                                                    <p>
+                                                        El algoritmo busca la dirección óptima (gradiente) para acercarse a la solución. El término "Precondicionado" significa que aplicamos una matriz de ayuda (M) para transformar el sistema original en uno más fácil de resolver, mejorando su estabilidad numérica.
+                                                    </p>
+                                                    <p>
+                                                        Es el método más potente de los cuatro para sistemas simétricos, logrando una precisión muy alta en un número reducido de iteraciones.
+                                                    </p>
+                                                    <p>
+                                                        Al ser un sistema estable y pequeño (3x3), este método alcanzará la solución exacta de forma matemática en apenas 3 o 4 iteraciones, mostrando un error de prácticamente cero en el resto de la tabla.
+                                                    </p>
+                                                    <div class="text-center">
+                                                        <div class="ecuacion">
+                                                            r<sub>k</sub> = b - Ax<sub>k</sub> (Residuo) <br>
+                                                            z<sub>k</sub> = M<sup>-1</sup>r<sub>k</sub> (Precondicionador) <br>
+                                                            p<sub>k</sub> = z<sub>k</sub> + β<sub>k</sub>p<sub>k-1</sub> (Dirección)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Tabla de Iteraciones</h3>
+                                            </div>
+                                            <table class="table table-bordered border-success">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Iter.</th>
+                                                        <th scope="col">x<sub>1</sub></th>
+                                                        <th scope="col">x<sub>2</sub></th>
+                                                        <th scope="col">x<sub>3</sub></th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td id="gpc_01_ideal">0</td>
+                                                            <td id="gpc_02_ideal">0</td>
+                                                            <td id="gpc_03_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td id="gpc_11_ideal">0</td>
+                                                            <td id="gpc_12_ideal">0</td>
+                                                            <td id="gpc_13_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td id="gpc_21_ideal">0</td>
+                                                            <td id="gpc_22_ideal">0</td>
+                                                            <td id="gpc_23_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td id="gpc_31_ideal">0</td>
+                                                            <td id="gpc_32_ideal">0</td>
+                                                            <td id="gpc_33_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td id="gpc_41_ideal">0</td>
+                                                            <td id="gpc_42_ideal">0</td>
+                                                            <td id="gpc_43_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td id="gpc_51_ideal">0</td>
+                                                            <td id="gpc_52_ideal">0</td>
+                                                            <td id="gpc_53_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td id="gpc_61_ideal">0</td>
+                                                            <td id="gpc_62_ideal">0</td>
+                                                            <td id="gpc_63_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td id="gpc_71_ideal">0</td>
+                                                            <td id="gpc_72_ideal">0</td>
+                                                            <td id="gpc_73_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td id="gpc_81_ideal">0</td>
+                                                            <td id="gpc_82_ideal">0</td>
+                                                            <td id="gpc_83_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td id="gpc_91_ideal">0</td>
+                                                            <td id="gpc_92_ideal">0</td>
+                                                            <td id="gpc_93_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td id="gpc_101_ideal">0</td>
+                                                            <td id="gpc_102_ideal">0</td>
+                                                            <td id="gpc_103_ideal">0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </thead>
+                                            </table>
+                                            <div class="mt-1 mb-1">
+                                                <p>
+                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                </p>
+                                                <div class="text-center">
+                                                    <p>E_rel = <strong id="e_rel_gpc_ideal">0</strong></p>
+                                                    <p>E_rel_% = <strong id="e_rel_gpc_por_ideal">0</strong>%</p>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 </div>
                             </div>
@@ -772,7 +1018,10 @@
                                                             <p>
                                                                 Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
                                                             </p>
-                                                            <dic class="text-center">
+                                                            <p>
+                                                                El método mostrará una convergencia mucho más lenta y pesada, donde los valores de las variables cambiarán mínimamente en cada paso, resultando en un error final todavía elevado tras las 10 iteraciones fijas.
+                                                            </p>
+                                                            <div class="text-center">
                                                                 <div class="ecuacion">
                                                                     (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                                     (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
@@ -793,7 +1042,7 @@
                                                                     <strong>Para z:</strong><br>
                                                                     z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
                                                                 </div>
-                                                            </dic>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -914,36 +1163,34 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p>
-                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                                Este método es una mejora directa de Jacobi. Se basa en el mismo principio de despeje, pero con una diferencia fundamental en la actualización de datos.
                                                             </p>
                                                             <p>
-                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                                A diferencia de Jacobi, en cuanto calculamos el nuevo valor de una variable (por ejemplo, x), lo utilizamos inmediatamente para calcular la siguiente (y) dentro de la misma iteración. Esto permite que el método utilice información más reciente y converja a la solución en menos pasos.
                                                             </p>
                                                             <p>
-                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                                En las fórmulas de abajo, observa cómo los valores calculados en la iteración actual (k+1) se integran al instante en los siguientes despejes.
                                                             </p>
-                                                            <dic class="text-center">
+                                                            <p>
+                                                                Mantendrá su superioridad sobre Jacobi, pero se observará que necesita más esfuerzo para estabilizarse, mostrando oscilaciones menores en los decimales antes de lograr asentar los valores cerca de la solución real.
+                                                            </p>
+                                                            <div class="text-center">
                                                                 <div class="ecuacion">
                                                                     (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                                     (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
                                                                     (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
                                                                 </div>
                                                                 <div class="despeje">
-                                                                    <!-- Despeje de X -->
                                                                     <strong>Para x:</strong><br>
                                                                     x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
                                                                     <br><br>
-
-                                                                    <!-- Despeje de Y -->
                                                                     <strong>Para y:</strong><br>
-                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k+1</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
                                                                     <br><br>
-
-                                                                    <!-- Despeje de Z -->
                                                                     <strong>Para z:</strong><br>
-                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k+1</sub> - a<sub>32</sub>y<sub>k+1</sub>) / a<sub>33</sub>
                                                                 </div>
-                                                            </dic>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1055,7 +1302,128 @@
                                         </h2>
                                         <div id="collapseSOR_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
                                         <div class="accordion-body">
-                                            <p>Contenido para el método SOR.</p>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Sobre Relajacion Sucesiva</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                El método de Sobrerrelajación Sucesiva (SOR) busca acelerar la convergencia de Gauss-Seidel mediante el uso de un factor de peso llamado omega (ω).
+                                                            </p>
+                                                            <p>
+                                                                Con un factor ω de 1.2, el método toma el valor sugerido por Gauss-Seidel y lo "empuja" un poco más en esa dirección, asumiendo que así llegará más rápido al resultado final. Es un promedio ponderado entre el valor de la iteración anterior y el nuevo cálculo.
+                                                            </p>
+                                                            <p>
+                                                                Este método es especialmente útil cuando los sistemas son grandes o cuando los métodos tradicionales tardan demasiadas iteraciones en estabilizarse.
+                                                            </p>
+                                                            <p>
+                                                                Aquí es donde el factor omega brilla; al forzar el avance de las variables, compensará la debilidad de la diagonal de la matriz, logrando resultados aceptables donde los métodos anteriores aún muestran un margen de error considerable.
+                                                            </p>
+                                                            <div class="text-center">
+                                                                <div class="despeje border p-2">
+                                                                    <strong>Fórmula de Relajación:</strong><br>
+                                                                    Variable<sub>nuevo</sub> = (1 - ω) * Variable<sub>k</sub> + ω * (Cálculo_Seidel)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="sor_01_estres">0</td>
+                                                                    <td id="sor_02_estres">0</td>
+                                                                    <td id="sor_03_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="sor_11_estres">0</td>
+                                                                    <td id="sor_12_estres">0</td>
+                                                                    <td id="sor_13_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="sor_21_estres">0</td>
+                                                                    <td id="sor_22_estres">0</td>
+                                                                    <td id="sor_23_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="sor_31_estres">0</td>
+                                                                    <td id="sor_32_estres">0</td>
+                                                                    <td id="sor_33_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="sor_41_estres">0</td>
+                                                                    <td id="sor_42_estres">0</td>
+                                                                    <td id="sor_43_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="sor_51_estres">0</td>
+                                                                    <td id="sor_52_estres">0</td>
+                                                                    <td id="sor_53_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="sor_61_estres">0</td>
+                                                                    <td id="sor_62_estres">0</td>
+                                                                    <td id="sor_63_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="sor_71_estres">0</td>
+                                                                    <td id="sor_72_estres">0</td>
+                                                                    <td id="sor_73_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="sor_81_estres">0</td>
+                                                                    <td id="sor_82_estres">0</td>
+                                                                    <td id="sor_83_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="sor_91_estres">0</td>
+                                                                    <td id="sor_92_estres">0</td>
+                                                                    <td id="sor_93_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="sor_101_estres">0</td>
+                                                                    <td id="sor_102_estres">0</td>
+                                                                    <td id="sor_103_estres">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_sor_estres">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_sor_por_estres">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
@@ -1069,7 +1437,129 @@
                                         </h2>
                                         <div id="collapseGradiente_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
                                         <div class="accordion-body">
-                                            <p>Contenido para Gradiente Conjugado.</p>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Gradiente Conjugado Precondicionado</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                A diferencia de los métodos anteriores, este no utiliza despejes algebraicos directos, sino que se basa en la minimización de una función cuadrática asociada al sistema.
+                                                            </p>
+                                                            <p>
+                                                                El algoritmo busca la dirección óptima (gradiente) para acercarse a la solución. El término "Precondicionado" significa que aplicamos una matriz de ayuda (M) para transformar el sistema original en uno más fácil de resolver, mejorando su estabilidad numérica.
+                                                            </p>
+                                                            <p>
+                                                                Es el método más potente de los cuatro para sistemas simétricos, logrando una precisión muy alta en un número reducido de iteraciones.
+                                                            </p>
+                                                            <p>
+                                                                A pesar del estrés del sistema, el método encontrará la ruta óptima hacia la solución sin desviarse, aunque los valores intermedios podrían ser menos intuitivos que en los métodos de despeje.
+                                                            </p>
+                                                            <div class="text-center">
+                                                                <div class="ecuacion">
+                                                                    r<sub>k</sub> = b - Ax<sub>k</sub> (Residuo) <br>
+                                                                    z<sub>k</sub> = M<sup>-1</sup>r<sub>k</sub> (Precondicionador) <br>
+                                                                    p<sub>k</sub> = z<sub>k</sub> + β<sub>k</sub>p<sub>k-1</sub> (Dirección)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="gpc_01_estres">0</td>
+                                                                    <td id="gpc_02_estres">0</td>
+                                                                    <td id="gpc_03_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="gpc_11_estres">0</td>
+                                                                    <td id="gpc_12_estres">0</td>
+                                                                    <td id="gpc_13_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="gpc_21_estres">0</td>
+                                                                    <td id="gpc_22_estres">0</td>
+                                                                    <td id="gpc_23_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="gpc_31_estres">0</td>
+                                                                    <td id="gpc_32_estres">0</td>
+                                                                    <td id="gpc_33_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="gpc_41_estres">0</td>
+                                                                    <td id="gpc_42_estres">0</td>
+                                                                    <td id="gpc_43_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="gpc_51_estres">0</td>
+                                                                    <td id="gpc_52_estres">0</td>
+                                                                    <td id="gpc_53_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="gpc_61_estres">0</td>
+                                                                    <td id="gpc_62_estres">0</td>
+                                                                    <td id="gpc_63_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="gpc_71_estres">0</td>
+                                                                    <td id="gpc_72_estres">0</td>
+                                                                    <td id="gpc_73_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="gpc_81_estres">0</td>
+                                                                    <td id="gpc_82_estres">0</td>
+                                                                    <td id="gpc_83_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="gpc_91_estres">0</td>
+                                                                    <td id="gpc_92_estres">0</td>
+                                                                    <td id="gpc_93_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="gpc_101_estres">0</td>
+                                                                    <td id="gpc_102_estres">0</td>
+                                                                    <td id="gpc_103_estres">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_gpc_estres">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_gpc_por_estres">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
@@ -1253,7 +1743,10 @@
                                                             <p>
                                                                 Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
                                                             </p>
-                                                            <dic class="text-center">
+                                                            <p>
+                                                                Los valores de las variables comenzarán a crecer de forma exponencial hacia el infinito o a oscilar erráticamente entre números positivos y negativos muy grandes, confirmando que el sistema no cumple con el criterio de convergencia.
+                                                            </p>
+                                                            <div class="text-center">
                                                                 <div class="ecuacion">
                                                                     (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                                     (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
@@ -1274,7 +1767,7 @@
                                                                     <strong>Para z:</strong><br>
                                                                     z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
                                                                 </div>
-                                                            </dic>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1393,37 +1886,36 @@
                                                     <div class="card">
                                                         <div class="card-body">
                                                             <p>
-                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                                Este método es una mejora directa de Jacobi. Se basa en el mismo principio de despeje, pero con una diferencia fundamental en la actualización de datos.
                                                             </p>
                                                             <p>
-                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                                A diferencia de Jacobi, en cuanto calculamos el nuevo valor de una variable (por ejemplo, x), lo utilizamos inmediatamente para calcular la siguiente (y) dentro de la misma iteración. Esto permite que el método utilice información más reciente y converja a la solución en menos pasos.
                                                             </p>
                                                             <p>
-                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                                En las fórmulas de abajo, observa cómo los valores calculados en la iteración actual (k+1) se integran al instante en los siguientes despejes.
                                                             </p>
-                                                            <dic class="text-center">
+                                                            <p>
+                                                                Al igual que Jacobi, el método fallará estrepitosamente, aunque es posible que la divergencia (el crecimiento de los números) ocurra incluso más rápido debido a que los errores se retroalimentan instantáneamente en cada cálculo.
+                                                            </p>
+                                                            <div class="text-center">
                                                                 <div class="ecuacion">
                                                                     (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
                                                                     (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
                                                                     (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
                                                                 </div>
                                                                 <div class="despeje">
-                                                                    <!-- Despeje de X -->
                                                                     <strong>Para x:</strong><br>
                                                                     x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
                                                                     <br><br>
-
-                                                                    <!-- Despeje de Y -->
                                                                     <strong>Para y:</strong><br>
-                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k+1</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
                                                                     <br><br>
-
-                                                                    <!-- Despeje de Z -->
                                                                     <strong>Para z:</strong><br>
-                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k+1</sub> - a<sub>32</sub>y<sub>k+1</sub>) / a<sub>33</sub>
                                                                 </div>
-                                                            </dic>
+                                                            </div>
                                                         </div>
+                                                    
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 col-md-6 p-1">
@@ -1533,7 +2025,128 @@
                                         </h2>
                                         <div id="collapseSOR_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
                                         <div class="accordion-body">
-                                            <p>Contenido para el método SOR.</p>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Sobre Relajacion Sucesiva</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                El método de Sobrerrelajación Sucesiva (SOR) busca acelerar la convergencia de Gauss-Seidel mediante el uso de un factor de peso llamado omega (ω).
+                                                            </p>
+                                                            <p>
+                                                                Con un factor ω de 1.2, el método toma el valor sugerido por Gauss-Seidel y lo "empuja" un poco más en esa dirección, asumiendo que así llegará más rápido al resultado final. Es un promedio ponderado entre el valor de la iteración anterior y el nuevo cálculo.
+                                                            </p>
+                                                            <p>
+                                                                Este método es especialmente útil cuando los sistemas son grandes o cuando los métodos tradicionales tardan demasiadas iteraciones en estabilizarse.
+                                                            </p>
+                                                            <p>
+                                                                El factor de aceleración actuará en contra del sistema inestable, provocando que los valores "exploten" numéricamente mucho antes de la iteración 10, alcanzando rápidamente el límite de capacidad de cómputo (NaN).
+                                                            </p>
+                                                            <div class="text-center">
+                                                                <div class="despeje border p-2">
+                                                                    <strong>Fórmula de Relajación:</strong><br>
+                                                                    Variable<sub>nuevo</sub> = (1 - ω) * Variable<sub>k</sub> + ω * (Cálculo_Seidel)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="sor_01_mal">0</td>
+                                                                    <td id="sor_02_mal">0</td>
+                                                                    <td id="sor_03_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="sor_11_mal">0</td>
+                                                                    <td id="sor_12_mal">0</td>
+                                                                    <td id="sor_13_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="sor_21_mal">0</td>
+                                                                    <td id="sor_22_mal">0</td>
+                                                                    <td id="sor_23_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="sor_31_mal">0</td>
+                                                                    <td id="sor_32_mal">0</td>
+                                                                    <td id="sor_33_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="sor_41_mal">0</td>
+                                                                    <td id="sor_42_mal">0</td>
+                                                                    <td id="sor_43_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="sor_51_mal">0</td>
+                                                                    <td id="sor_52_mal">0</td>
+                                                                    <td id="sor_53_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="sor_61_mal">0</td>
+                                                                    <td id="sor_62_mal">0</td>
+                                                                    <td id="sor_63_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="sor_71_mal">0</td>
+                                                                    <td id="sor_72_mal">0</td>
+                                                                    <td id="sor_73_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="sor_81_mal">0</td>
+                                                                    <td id="sor_82_mal">0</td>
+                                                                    <td id="sor_83_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="sor_91_mal">0</td>
+                                                                    <td id="sor_92_mal">0</td>
+                                                                    <td id="sor_93_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="sor_101_mal">0</td>
+                                                                    <td id="sor_102_mal">0</td>
+                                                                    <td id="sor_103_mal">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_sor_mal">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_sor_por_mal">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
@@ -1547,7 +2160,129 @@
                                         </h2>
                                         <div id="collapseGradiente_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
                                         <div class="accordion-body">
-                                            <p>Contenido para Gradiente Conjugado.</p>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Gradiente Conjugado Precondicionado</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                A diferencia de los métodos anteriores, este no utiliza despejes algebraicos directos, sino que se basa en la minimización de una función cuadrática asociada al sistema.
+                                                            </p>
+                                                            <p>
+                                                                El algoritmo busca la dirección óptima (gradiente) para acercarse a la solución. El término "Precondicionado" significa que aplicamos una matriz de ayuda (M) para transformar el sistema original en uno más fácil de resolver, mejorando su estabilidad numérica.
+                                                            </p>
+                                                            <p>
+                                                                Es el método más potente de los cuatro para sistemas simétricos, logrando una precisión muy alta en un número reducido de iteraciones.
+                                                            </p>
+                                                            <p>
+                                                                Si la matriz no es simétrica definida positiva, el método perderá su dirección de búsqueda ortogonal, resultando en valores que no guardan relación con el sistema o en errores críticos de división por cero durante el cálculo del parámetro alfa.
+                                                            </p>
+                                                            <div class="text-center">
+                                                                <div class="ecuacion">
+                                                                    r<sub>k</sub> = b - Ax<sub>k</sub> (Residuo) <br>
+                                                                    z<sub>k</sub> = M<sup>-1</sup>r<sub>k</sub> (Precondicionador) <br>
+                                                                    p<sub>k</sub> = z<sub>k</sub> + β<sub>k</sub>p<sub>k-1</sub> (Dirección)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="gpc_01_mal">0</td>
+                                                                    <td id="gpc_02_mal">0</td>
+                                                                    <td id="gpc_03_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="gpc_11_mal">0</td>
+                                                                    <td id="gpc_12_mal">0</td>
+                                                                    <td id="gpc_13_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="gpc_21_mal">0</td>
+                                                                    <td id="gpc_22_mal">0</td>
+                                                                    <td id="gpc_23_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="gpc_31_mal">0</td>
+                                                                    <td id="gpc_32_mal">0</td>
+                                                                    <td id="gpc_33_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="gpc_41_mal">0</td>
+                                                                    <td id="gpc_42_mal">0</td>
+                                                                    <td id="gpc_43_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="gpc_51_mal">0</td>
+                                                                    <td id="gpc_52_mal">0</td>
+                                                                    <td id="gpc_53_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="gpc_61_mal">0</td>
+                                                                    <td id="gpc_62_mal">0</td>
+                                                                    <td id="gpc_63_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="gpc_71_mal">0</td>
+                                                                    <td id="gpc_72_mal">0</td>
+                                                                    <td id="gpc_73_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="gpc_81_mal">0</td>
+                                                                    <td id="gpc_82_mal">0</td>
+                                                                    <td id="gpc_83_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="gpc_91_mal">0</td>
+                                                                    <td id="gpc_92_mal">0</td>
+                                                                    <td id="gpc_93_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="gpc_101_mal">0</td>
+                                                                    <td id="gpc_102_mal">0</td>
+                                                                    <td id="gpc_103_mal">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_gpc_mal">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_gpc_por_mal">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
@@ -1566,7 +2301,6 @@
                 </h2>
                 <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <!--DESCRIPCION DEL CASO BAJO ESTRES-->
                         <div class="card">
                             <div class="card-body">
                                 <p><strong>La siguiente tabla mostramos la eficiencia de los metodos empleados para los diferentes casos hipoteticos</strong></p>
@@ -1632,12 +2366,57 @@
                 </h2>
                 <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        si se puede aqui estarn las graficas
+                        
+                        <div class="card mb-4 shadow">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="m-0">Caso: Bien Condicionado (Ideal)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_ideal"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_ideal"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_ideal"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 shadow">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="m-0">Caso: Sistema Bajo EStres</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_estres"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_estres"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_estres"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 shadow">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="m-0">Caso: Mal Condicionado</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_mal"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_mal"></canvas></div>
+                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_mal"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botón para disparar todo -->
+                        <div class="text-center">
+                            <button onclick="iniciarGraficacion()" class="btn btn-success btn-lg">Actualizar Gráficas</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/generarDatos.js"></script>
     <script src="js/extra.js"></script>
     <script src="js/descomposicion.js"></script>
@@ -1646,5 +2425,10 @@
     <script src="js/principalJacobi.js"></script>
     <script src="js/seidel.js"></script>
     <script src="js/principalSeidel.js"></script>
+    <script src="js/sor.js"></script>
+    <script src="js/principalSor.js"></script>
+    <script src="js/gpc.js"></script>
+    <script src="js/principalGPC.js"></script>
+    <script src="js/grafica.js"></script>
 </body>
 </html>
