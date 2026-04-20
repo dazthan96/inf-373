@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+    <title>Primer desafio</title>
+</head>
+<body style="background-color: #F2EBE3">
+    <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1 text-truncate">
+                Primer caso de estudio
+            </span>
+            <a href="../../index.html" class="btn btn-outline-light btn-sm">
+                Volver al Inicio
+            </a>
+        </div>
+    </nav>
+    <div class="container p-2" style="background-color: #f5f3f2">
+        <div class="text-center mb-5">
+            <h1 class="display-6 fw-bold text-dark">Balance de Carga en Nodos de Edge Computing para IA</h1>
+        </div>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <strong class=" fw-bold text-dark">Descripcion de caso de estudio</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <!---DESCRIPCION DEL CASO DE ESTUDIO-->
+                        <div class="card">
+                            <h5 class="card-header">Introduccion</h5>
+                            <div class="card-body">
+                                <p class="">
+                                    En el despliegue de servicios modernos de Inteligencia Artificial (como el reconocimiento de objetos en vehículos autónomos o el análisis de videovigilancia urbana), el tiempo de respuesta es crítico. Para minimizar la latencia, se utiliza el Edge Computing, donde el procesamiento no ocurre en un solo servidor central, sino que se distribuye en múltiples "nodos" cercanos al usuario.
+                                </p>
+                                <p class="">
+                                    El desafío técnico consiste en determinar <strong>la carga de trabajo óptima</strong> (x₁, x₂, x₃) que debe asignarse a cada nodo para que el sistema opere en equilibrio, considerando las restricciones de capacidad de cómputo, ancho de banda disponible y latencia de red. Este equilibrio se modela mediante un sistema de ecuaciones lineales de la forma Ax = b.
+                                </p>
+                                <p class="">Para el presente caso tomaremos tenemos los siguientes parametros:</p>
+                                
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>Variables x<sub>i</sub>:</strong> Unidades de tareas de IA asignadas al Nodo A, B y C.
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Matriz A:</strong> Coeficientes de consumo de recursos por unidad de tarea.
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Vector B<sub>i</sub>:</strong> Capacidad total de respuesta del sistema en milisegundos.
+                                    </li>
+                                    <li class="list-group-item ">
+                                        <strong>x₁: </strong>Nodo de Borde Sensórico (Edge Device)
+                                        <ul class="list">
+                                            <li class="list-item">
+                                                <strong>Hardware: </strong>Microcontroladores o aceleradores de baja potencia (ej. NVIDIA Jetson Nano o Google Coral) situados físicamente junto a la cámara o sensor. 
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Funcion:</strong>Realiza el pre-procesamiento y filtrado de datos crudos.
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Importancia:</strong>Es la primera línea de defensa. Una asignación alta en x₁ reduce drásticamente la latencia, pero satura rápidamente el dispositivo debido a su limitada memoria RAM.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item ">
+                                        <strong>x₂: </strong>Nodo de Agregación Local (Fog Computing)
+                                        <ul class="list">
+                                            <li class="list-item">
+                                                <strong>Hardware: </strong>Un servidor de pequeña escala o una estación de trabajo con GPU dedicada, ubicada en la misma red local (ej. el cuarto de servidores de un edificio).
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Funcion:</strong>Ejecuta los modelos de redes neuronales pesados que el dispositivo de borde (x₁) no puede manejar.
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Importancia:</strong>Actúa como el equilibrio del sistema. Tiene más potencia que el borde pero menos latencia que la nube. Es la variable que suele estabilizar el sistema en el Caso Ideal.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item ">
+                                        <strong>x₃: </strong>Nodo de Procesamiento en la Nube (Cloud Tier)
+                                        <ul class="list">
+                                            <li class="list-item">
+                                                <strong>Hardware: </strong>Instancias de computación de alto rendimiento en centros de datos remotos (ej. AWS, Azure o Google Cloud).
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Funcion:</strong>Realiza el entrenamiento pesado, almacenamiento de logs a largo plazo y procesamiento de modelos complejos que requieren gigabytes de VRAM.
+                                            </li>
+                                            <li class="list-item">
+                                                <strong>Importancia:</strong>Su capacidad es virtualmente infinita, pero depende totalmente del ancho de banda. En el Caso Bajo Estrés (DDoS), el costo de comunicación hacia se dispara, haciendo que el sistema de ecuaciones se vuelva difícil de resolver por la inestabilidad de la conexión.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <p class="">Asi, cada fila de nuestra matriz A representa una restriccion física de la red</p>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>Fila de Latencia: </strong>a₁x₁ +  a₂x₂ + a₃x₃ = B₁ (Como influye el procesamiento de cada nodo en el tiempo de respuesta total)
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Fila de Energia y costo: </strong>b₁x₁ +  b₂x₂ + b₃x₃ = B₂ (El consumo energetico y/o costo economico de procesar en el servicio edge vs en la nube)
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Fila de Integridad de datos: </strong>c₁x₁ +  c₂x₂ + c₃x₃ = B₃ (La perdida de paquetes o precision segun donde se procese la informacion)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <strong class=" fw-bold text-dark">Caso Ideal</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <!--DESCRIPCION DEL CASO IDEAL-->
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Configuración de Red Heterogénea</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>En condiciones óptimas, la infraestructura cuenta con nodos de distintas arquitecturas (un servidor con GPU, otro con CPU de alta frecuencia y un nodo de soporte en la nube).</p>
+                                <p>Debido a la especialización de cada nodo, las ecuaciones que rigen su comportamiento son claramente distintas. Matemáticamente, esto se traduce en una matriz con una diagonal dominante, lo que garantiza una convergencia rápida y estable para métodos tanto directos como iterativos. Es el modelo de máxima eficiencia operativa.</p>
+                                <div class="row mb-3">
+                                    <!-- Fila 1 -->
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a11_ideal" class="form-control" value="10"> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a12_ideal" class="form-control" value="1"> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a13_ideal" class="form-control" value="2"> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b1_ideal" class="form-control" value="44">
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a21_ideal" class="form-control" value="1"> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a22_ideal" class="form-control" value="12"> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a23_ideal" class="form-control" value="3"> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b2_ideal" class="form-control" value="51">
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a31_ideal" class="form-control" value="2"> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a32_ideal" class="form-control" value="3"> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a33_ideal" class="form-control" value="15"> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b3_ideal" class="form-control" value="75">
+                                    </div>
+                                    <!-- Repetir filas para a21...a33 y b2, b3 con el mismo sufijo _ideal -->
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary mt-2" onclick="generarEscenarios()">Generar casos</button>
+                                <button class="btn btn-primary mt-2" onclick="ejecutarLU()" >Descomposicion LU</button>
+                                <button class="btn btn-primary mt-2" onclick="llenarJacobi()" >Jacobi</button>
+                                <button class="btn btn-primary mt-2" onclick="llenarSeidel()" >Seidel</button>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion mt-2" id="acordeonIdeal">
+
+                            <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingLU_ideal">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_ideal">
+                                    <strong class=" fw-bold text-dark">Descomposicion LU</strong>
+                                </button>
+                                </h2>
+                                <div id="collapseLU_ideal" class="accordion-collapse collapse show"  data-bs-parent="#acordeonIdeal">
+                                <div class="accordion-body">
+                                    <!-- LU EMPIEZA AQUI -->
+                                     <!-- SECCIÓN 2: FACTORIZACIÓN LU -->
+                                    <div class="row g-4 mb-5">
+                                        <div class="col-md-6">
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-header bg-primary text-white fw-bold">Matriz L</div>
+                                                <div class="card-body">
+                                                    <table class="table table-bordered text-center font-monospace">
+                                                        <tr><td id="l11_lu_ideal">0</td><td id="l12_lu_ideal">0</td><td id="l13_lu_ideal">0</td></tr>
+                                                        <tr><td id="l21_lu_ideal">0</td><td id="l22_lu_ideal">0</td><td id="l23_lu_ideal">0</td></tr>
+                                                        <tr><td id="l31_lu_ideal">0</td><td id="l32_lu_ideal">0</td><td id="l33_lu_ideal">0</td></tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-header bg-primary text-white fw-bold">Matriz U</div>
+                                                <div class="card-body">
+                                                    <table class="table table-bordered text-center font-monospace">
+                                                        <tr><td id="u11_lu_ideal">0</td><td id="u12_lu_ideal">0</td><td id="u13_lu_ideal">0</td></tr>
+                                                        <tr><td id="u21_lu_ideal">0</td><td id="u22_lu_ideal">0</td><td id="u23_lu_ideal">0</td></tr>
+                                                        <tr><td id="u31_lu_ideal">0</td><td id="u32_lu_ideal">0</td><td id="u33_lu_ideal">0</td></tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SECCIÓN 3: MATRICES INVERSAS -->
+                                    <div class="row g-4 mb-5">
+                                        <div class="col-md-6">
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-header bg-info text-dark fw-bold">Inversa de L (L⁻¹)</div>
+                                                <div class="card-body">
+                                                    <table class="table table-bordered text-center font-monospace">
+                                                        <tr><td id="l1_11_lu_ideal">0</td><td id="l1_12_lu_ideal">0</td><td id="l1_12_lu_ideal">0</td></tr>
+                                                        <tr><td id="l1_21_lu_ideal">0</td><td id="l1_22_lu_ideal">0</td><td id="l1_23_lu_ideal">0</td></tr>
+                                                        <tr><td id="l1_31_lu_ideal">0</td><td id="l1_32_lu_ideal">0</td><td id="l1_33_lu_ideal">0</td></tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card border-0 shadow-sm">
+                                                <div class="card-header bg-info text-dark fw-bold">Inversa de U (U⁻¹)</div>
+                                                <div class="card-body">
+                                                    <table class="table table-bordered text-center font-monospace">
+                                                        <tr><td id="u1_11_lu_ideal">0</td><td id="u1_12_lu_ideal">0</td><td id="u1_13_lu_ideal">0</td></tr>
+                                                        <tr><td id="u1_21_lu_ideal">0</td><td id="u1_22_lu_ideal">0</td><td id="u1_23_lu_ideal">0</td></tr>
+                                                        <tr><td id="u1_31_lu_ideal">0</td><td id="u1_32_lu_ideal">0</td><td id="u1_33_lu_ideal">0</td></tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SECCIÓN 4: RESULTADOS FINALES -->
+                                    <div class="row g-4">
+                                        <!-- Vector D -->
+                                        <div class="col-md-6">
+                                            <div class="card border-primary border-2 shadow">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-primary">Vector D</h5>
+                                                    <p class="small font-monospace text-muted">D = L⁻¹ × B</p>
+                                                    <div class="d-flex justify-content-center">
+                                                        <table class="table table-bordered border-primary text-center w-50 font-monospace h5">
+                                                            <tr><td id="d1_lu_ideal">0</td></tr>
+                                                            <tr><td id="d2_lu_ideal">0</td></tr>
+                                                            <tr><td id="d3_lu_ideal">0</td></tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Vector X -->
+                                        <div class="col-md-6">
+                                            <div class="card border-success border-2 shadow">
+                                                <div class="card-body">
+                                                    <h5 class="fw-bold text-success">Vector Solución X</h5>
+                                                    <p class="small font-monospace text-muted">X = U⁻¹ × D</p>
+                                                    <div class="d-flex justify-content-center">
+                                                        <table class="table table-bordered border-success text-center w-50 font-monospace h5">
+                                                            <tr class="table-success"><td id="x1_lu_ideal">0</td></tr>
+                                                            <tr class="table-success"><td id="x2_lu_ideal">0</td></tr>
+                                                            <tr class="table-success"><td id="x3_lu_ideal">0</td></tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--LU TERMINA AQUI-->
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Método de Jacobi -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingJacobi_ideal">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJacobi_ideal">
+                                    <strong class=" fw-bold text-dark">Metodo Jacobi</strong>
+                                </button>
+                                </h2>
+                                <div id="collapseJacobi_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
+                                <div class="accordion-body">
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Jacobi</h3>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p>
+                                                        La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                    </p>
+                                                    <p>
+                                                        Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                    </p>
+                                                    <p>
+                                                        Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                    </p>
+                                                    <dic class="text-center">
+                                                        <div class="ecuacion">
+                                                            (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                            (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                            (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                        </div>
+                                                        <div class="despeje">
+                                                            <!-- Despeje de X -->
+                                                            <strong>Para x:</strong><br>
+                                                            x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                            <br><br>
+
+                                                            <!-- Despeje de Y -->
+                                                            <strong>Para y:</strong><br>
+                                                            y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                            <br><br>
+
+                                                            <!-- Despeje de Z -->
+                                                            <strong>Para z:</strong><br>
+                                                            z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                        </div>
+                                                    </dic>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Tabla de Iteraciones</h3>
+                                            </div>
+                                            <table class="table table-bordered border-success">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Iter.</th>
+                                                        <th scope="col">x<sub>1</sub></th>
+                                                        <th scope="col">x<sub>2</sub></th>
+                                                        <th scope="col">x<sub>3</sub></th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td id="jac_01_ideal">0</td>
+                                                            <td id="jac_02_ideal">0</td>
+                                                            <td id="jac_03_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td id="jac_11_ideal">0</td>
+                                                            <td id="jac_12_ideal">0</td>
+                                                            <td id="jac_13_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td id="jac_21_ideal">0</td>
+                                                            <td id="jac_22_ideal">0</td>
+                                                            <td id="jac_23_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td id="jac_31_ideal">0</td>
+                                                            <td id="jac_32_ideal">0</td>
+                                                            <td id="jac_33_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td id="jac_41_ideal">0</td>
+                                                            <td id="jac_42_ideal">0</td>
+                                                            <td id="jac_43_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td id="jac_51_ideal">0</td>
+                                                            <td id="jac_52_ideal">0</td>
+                                                            <td id="jac_53_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td id="jac_61_ideal">0</td>
+                                                            <td id="jac_62_ideal">0</td>
+                                                            <td id="jac_63_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td id="jac_71_ideal">0</td>
+                                                            <td id="jac_72_ideal">0</td>
+                                                            <td id="jac_73_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td id="jac_81_ideal">0</td>
+                                                            <td id="jac_82_ideal">0</td>
+                                                            <td id="jac_83_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td id="jac_91_ideal">0</td>
+                                                            <td id="jac_92_ideal">0</td>
+                                                            <td id="jac_93_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td id="jac_101_ideal">0</td>
+                                                            <td id="jac_102_ideal">0</td>
+                                                            <td id="jac_103_ideal">0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </thead>
+                                            </table>
+                                            <div class="mt-1 mb-1">
+                                                <p>
+                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                </p>
+                                                <div class="text-center">
+                                                    <p>E_rel = <strong id="e_rel_jac_ideal">0</strong></p>
+                                                    <p>E_rel_% = <strong id="e_rel_jac_por_ideal">0</strong>%</p>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. Método de Gauss-Seidel -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSeidel_ideal">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeidel_ideal">
+                                    <strong class=" fw-bold text-dark">Metodo Seidel</strong>
+                                </button>
+                                </h2>
+                                <div id="collapseSeidel_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Seidel</h3>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p>
+                                                        La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                    </p>
+                                                    <p>
+                                                        Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                    </p>
+                                                    <p>
+                                                        Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                    </p>
+                                                    <dic class="text-center">
+                                                        <div class="ecuacion">
+                                                            (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                            (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                            (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                        </div>
+                                                        <div class="despeje">
+                                                            <!-- Despeje de X -->
+                                                            <strong>Para x:</strong><br>
+                                                            x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                            <br><br>
+
+                                                            <!-- Despeje de Y -->
+                                                            <strong>Para y:</strong><br>
+                                                            y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                            <br><br>
+
+                                                            <!-- Despeje de Z -->
+                                                            <strong>Para z:</strong><br>
+                                                            z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                        </div>
+                                                    </dic>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 p-1">
+                                            <div class="text-center">
+                                                <h3 class="h3">Tabla de Iteraciones</h3>
+                                            </div>
+                                            <table class="table table-bordered border-success">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Iter.</th>
+                                                        <th scope="col">x<sub>1</sub></th>
+                                                        <th scope="col">x<sub>2</sub></th>
+                                                        <th scope="col">x<sub>3</sub></th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td id="sei_01_ideal">0</td>
+                                                            <td id="sei_02_ideal">0</td>
+                                                            <td id="sei_03_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td id="sei_11_ideal">0</td>
+                                                            <td id="sei_12_ideal">0</td>
+                                                            <td id="sei_13_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td id="sei_21_ideal">0</td>
+                                                            <td id="sei_22_ideal">0</td>
+                                                            <td id="sei_23_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td id="sei_31_ideal">0</td>
+                                                            <td id="sei_32_ideal">0</td>
+                                                            <td id="sei_33_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td id="sei_41_ideal">0</td>
+                                                            <td id="sei_42_ideal">0</td>
+                                                            <td id="sei_43_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td id="sei_51_ideal">0</td>
+                                                            <td id="sei_52_ideal">0</td>
+                                                            <td id="sei_53_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td id="sei_61_ideal">0</td>
+                                                            <td id="sei_62_ideal">0</td>
+                                                            <td id="sei_63_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td id="sei_71_ideal">0</td>
+                                                            <td id="sei_72_ideal">0</td>
+                                                            <td id="sei_73_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td id="sei_81_ideal">0</td>
+                                                            <td id="sei_82_ideal">0</td>
+                                                            <td id="sei_83_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td id="sei_91_ideal">0</td>
+                                                            <td id="sei_92_ideal">0</td>
+                                                            <td id="sei_93_ideal">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td id="sei_101_ideal">0</td>
+                                                            <td id="sei_102_ideal">0</td>
+                                                            <td id="sei_103_ideal">0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </thead>
+                                            </table>
+                                            <div class="mt-1 mb-1">
+                                                <p>
+                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                </p>
+                                                <div class="text-center">
+                                                    <p>E_rel = <strong id="e_rel_sei_ideal">0</strong></p>
+                                                    <p>E_rel_% = <strong id="e_rel_sei_por_ideal">0</strong>%</p>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Método SOR (Sobrerelajación) -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSOR_ideal">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSOR_ideal">
+                                    <strong class=" fw-bold text-dark">Metodo de Sobrerelajación Sucesiva</strong>
+                                </button>
+                                </h2>
+                                <div id="collapseSOR_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
+                                <div class="accordion-body">
+                                    <p>Contenido para el método SOR.</p>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Gradiente Conjugado Precondicionado -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingGradiente_ideal">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGradiente_ideal">
+                                    <strong class=" fw-bold text-dark">Gradiente Conjugado Precondicionado</strong>
+                                </button>
+                                </h2>
+                                <div id="collapseGradiente_ideal" class="accordion-collapse collapse" data-bs-parent="#acordeonIdeal">
+                                <div class="accordion-body">
+                                    <p>Contenido para Gradiente Conjugado.</p>
+                                </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        <strong class=" fw-bold text-dark">Caso Bajo Estres</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <!--DESCRIPCION DEL CASO BAJO ESTRES-->
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Saturacion por demanda Critica</strong>
+                            </div>
+                            <div class="card-body">
+                                <p>Durante eventos de alta demanda o ataques de denegación de servicio (DDoS), el tráfico de red se vuelve masivo.</p>
+                                <p>Los coeficientes de la matriz aumentan su magnitud significativamente, reflejando que cada unidad de procesamiento extra ahora cuesta mucho más recurso debido a la colisión de paquetes y la saturación de los procesadores.</p>
+                                <div class="row mb-3">
+                                    <!-- Fila 1 -->
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a11_estres" class="form-control" value="0" readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a12_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a13_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b1_estres" class="form-control" value="0"readonly>
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a21_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a22_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a23_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b2_estres" class="form-control" value="0"readonly>
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a31_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a32_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a33_estres" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b3_estres" class="form-control" value="0"readonly>
+                                    </div>
+                                    <!-- Repetir filas para a21...a33 y b2, b3 con el mismo sufijo _ideal -->
+                                </div>
+                                <div class="accordion" id="acordeonEstres">
+
+                                    <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingLU_estres">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_estres">
+                                            <strong class=" fw-bold text-dark">Descomposicion LU</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseLU_estres" class="accordion-collapse collapse show" data-bs-parent="#acordeonEstres">
+                                        <div class="accordion-body">
+                                            <!-- Aquí va tu tabla y botón para LU -->
+                                            <!-- LU EMPIEZA AQUI -->
+                                            <!-- SECCIÓN 2: FACTORIZACIÓN LU -->
+                                            <div class="row g-4 mb-5">
+                                                <div class="col-md-6">
+                                                    <div class="card border-0 shadow-sm">
+                                                        <div class="card-header bg-primary text-white fw-bold">Matriz L</div>
+                                                        <div class="card-body">
+                                                            <table class="table table-bordered text-center font-monospace">
+                                                                <tr><td id="l11_lu_estres">0</td><td id="l12_lu_estres">0</td><td id="l13_lu_estres">0</td></tr>
+                                                                <tr><td id="l21_lu_estres">0</td><td id="l22_lu_estres">0</td><td id="l23_lu_estres">0</td></tr>
+                                                                <tr><td id="l31_lu_estres">0</td><td id="l32_lu_estres">0</td><td id="l33_lu_estres">0</td></tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card border-0 shadow-sm">
+                                                        <div class="card-header bg-primary text-white fw-bold">Matriz U</div>
+                                                        <div class="card-body">
+                                                            <table class="table table-bordered text-center font-monospace">
+                                                                <tr><td id="u11_lu_estres">0</td><td id="u12_lu_estres">0</td><td id="u13_lu_estres">0</td></tr>
+                                                                <tr><td id="u21_lu_estres">0</td><td id="u22_lu_estres">0</td><td id="u23_lu_estres">0</td></tr>
+                                                                <tr><td id="u31_lu_estres">0</td><td id="u32_lu_estres">0</td><td id="u33_lu_estres">0</td></tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- SECCIÓN 3: MATRICES INVERSAS -->
+                                            <div class="row g-4 mb-5">
+                                                <div class="col-md-6">
+                                                    <div class="card border-0 shadow-sm">
+                                                        <div class="card-header bg-info text-dark fw-bold">Inversa de L (L⁻¹)</div>
+                                                        <div class="card-body">
+                                                            <table class="table table-bordered text-center font-monospace">
+                                                                <tr><td id="l1_11_lu_estres">0</td><td id="l1_12_lu_estres">0</td><td id="l1_12_lu_estres">0</td></tr>
+                                                                <tr><td id="l1_21_lu_estres">0</td><td id="l1_22_lu_estres">0</td><td id="l1_23_lu_estres">0</td></tr>
+                                                                <tr><td id="l1_31_lu_estres">0</td><td id="l1_32_lu_estres">0</td><td id="l1_33_lu_estres">0</td></tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card border-0 shadow-sm">
+                                                        <div class="card-header bg-info text-dark fw-bold">Inversa de U (U⁻¹)</div>
+                                                        <div class="card-body">
+                                                            <table class="table table-bordered text-center font-monospace">
+                                                                <tr><td id="u1_11_lu_estres">0</td><td id="u1_12_lu_estres">0</td><td id="u1_13_lu_estres">0</td></tr>
+                                                                <tr><td id="u1_21_lu_estres">0</td><td id="u1_22_lu_estres">0</td><td id="u1_23_lu_estres">0</td></tr>
+                                                                <tr><td id="u1_31_lu_estres">0</td><td id="u1_32_lu_estres">0</td><td id="u1_33_lu_estres">0</td></tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- SECCIÓN 4: RESULTADOS FINALES -->
+                                            <div class="row g-4">
+                                                <!-- Vector D -->
+                                                <div class="col-md-6">
+                                                    <div class="card border-primary border-2 shadow">
+                                                        <div class="card-body">
+                                                            <h5 class="fw-bold text-primary">Vector D</h5>
+                                                            <p class="small font-monospace text-muted">D = L⁻¹ × B</p>
+                                                            <div class="d-flex justify-content-center">
+                                                                <table class="table table-bordered border-primary text-center w-50 font-monospace h5">
+                                                                    <tr><td id="d1_lu_estres">0</td></tr>
+                                                                    <tr><td id="d2_lu_estres">0</td></tr>
+                                                                    <tr><td id="d3_lu_estres">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Vector X -->
+                                                <div class="col-md-6">
+                                                    <div class="card border-success border-2 shadow">
+                                                        <div class="card-body">
+                                                            <h5 class="fw-bold text-success">Vector Solución X</h5>
+                                                            <p class="small font-monospace text-muted">X = U⁻¹ × D</p>
+                                                            <div class="d-flex justify-content-center">
+                                                                <table class="table table-bordered border-success text-center w-50 font-monospace h5">
+                                                                    <tr class="table-success"><td id="x1_lu_estres">0</td></tr>
+                                                                    <tr class="table-success"><td id="x2_lu_estres">0</td></tr>
+                                                                    <tr class="table-success"><td id="x3_lu_estres">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--LU TERMINA AQUI-->
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Método de Jacobi -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingJacobi_Estres">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJacobi_estres">
+                                            <strong class=" fw-bold text-dark">Metodo Jacobi</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseJacobi_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
+                                        <div class="accordion-body">
+                                            
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Jacobi</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                            </p>
+                                                            <p>
+                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                            </p>
+                                                            <p>
+                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                            </p>
+                                                            <dic class="text-center">
+                                                                <div class="ecuacion">
+                                                                    (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                                    (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                                    (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                                </div>
+                                                                <div class="despeje">
+                                                                    <!-- Despeje de X -->
+                                                                    <strong>Para x:</strong><br>
+                                                                    x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Y -->
+                                                                    <strong>Para y:</strong><br>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Z -->
+                                                                    <strong>Para z:</strong><br>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                </div>
+                                                            </dic>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="jac_01_estres">0</td>
+                                                                    <td id="jac_02_estres">0</td>
+                                                                    <td id="jac_03_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="jac_11_estres">0</td>
+                                                                    <td id="jac_12_estres">0</td>
+                                                                    <td id="jac_13_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="jac_21_estres">0</td>
+                                                                    <td id="jac_22_estres">0</td>
+                                                                    <td id="jac_23_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="jac_31_estres">0</td>
+                                                                    <td id="jac_32_estres">0</td>
+                                                                    <td id="jac_33_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="jac_41_estres">0</td>
+                                                                    <td id="jac_42_estres">0</td>
+                                                                    <td id="jac_43_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="jac_51_estres">0</td>
+                                                                    <td id="jac_52_estres">0</td>
+                                                                    <td id="jac_53_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="jac_61_estres">0</td>
+                                                                    <td id="jac_62_estres">0</td>
+                                                                    <td id="jac_63_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="jac_71_estres">0</td>
+                                                                    <td id="jac_72_estres">0</td>
+                                                                    <td id="jac_73_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="jac_81_estres">0</td>
+                                                                    <td id="jac_82_estres">0</td>
+                                                                    <td id="jac_83_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="jac_91_estres">0</td>
+                                                                    <td id="jac_92_estres">0</td>
+                                                                    <td id="jac_93_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="jac_101_estres">0</td>
+                                                                    <td id="jac_102_estres">0</td>
+                                                                    <td id="jac_103_estres">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_jac_estres">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_jac_por_estres">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Método de Gauss-Seidel -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingSeidel_estres">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeidel_estres">
+                                            <strong class=" fw-bold text-dark">Metodo Seidel</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseSeidel_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
+                                        <div class="accordion-body">
+                                            
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Seidel</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                            </p>
+                                                            <p>
+                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                            </p>
+                                                            <p>
+                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                            </p>
+                                                            <dic class="text-center">
+                                                                <div class="ecuacion">
+                                                                    (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                                    (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                                    (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                                </div>
+                                                                <div class="despeje">
+                                                                    <!-- Despeje de X -->
+                                                                    <strong>Para x:</strong><br>
+                                                                    x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Y -->
+                                                                    <strong>Para y:</strong><br>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Z -->
+                                                                    <strong>Para z:</strong><br>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                </div>
+                                                            </dic>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="sei_01_estres">0</td>
+                                                                    <td id="sei_02_estres">0</td>
+                                                                    <td id="sei_03_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="sei_11_estres">0</td>
+                                                                    <td id="sei_12_estres">0</td>
+                                                                    <td id="sei_13_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="sei_21_estres">0</td>
+                                                                    <td id="sei_22_estres">0</td>
+                                                                    <td id="sei_23_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="sei_31_estres">0</td>
+                                                                    <td id="sei_32_estres">0</td>
+                                                                    <td id="sei_33_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="sei_41_estres">0</td>
+                                                                    <td id="sei_42_estres">0</td>
+                                                                    <td id="sei_43_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="sei_51_estres">0</td>
+                                                                    <td id="sei_52_estres">0</td>
+                                                                    <td id="sei_53_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="sei_61_estres">0</td>
+                                                                    <td id="sei_62_estres">0</td>
+                                                                    <td id="sei_63_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="sei_71_estres">0</td>
+                                                                    <td id="sei_72_estres">0</td>
+                                                                    <td id="sei_73_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="sei_81_estres">0</td>
+                                                                    <td id="sei_82_estres">0</td>
+                                                                    <td id="sei_83_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="sei_91_estres">0</td>
+                                                                    <td id="sei_92_estres">0</td>
+                                                                    <td id="sei_93_estres">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="sei_101_estres">0</td>
+                                                                    <td id="sei_102_estres">0</td>
+                                                                    <td id="sei_103_estres">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_sei_estres">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_sei_por_estres">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Método SOR (Sobrerelajación) -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingSOR_estres">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSOR_estres">
+                                            <strong class=" fw-bold text-dark">Metodo de Sobrerelajación Sucesiva</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseSOR_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
+                                        <div class="accordion-body">
+                                            <p>Contenido para el método SOR.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Gradiente Conjugado Precondicionado -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingGradiente_estres">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGradiente_estres">
+                                            <strong class=" fw-bold text-dark">Gradiente Conjugado Precondicionado</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseGradiente_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
+                                        <div class="accordion-body">
+                                            <p>Contenido para Gradiente Conjugado.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                        <strong class=" fw-bold text-dark">Caso Mal Condicionado</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <!--DESCRIPCION DEL CASO MAL CONDICIONADO-->
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Redundancia y Conflicto de Configuración</strong>
+                            </div>
+                        
+                            <div class="card-body">
+                                <p>Este caso ocurre por un error común en ingeniería de sistemas: el "mirroring" o duplicidad de rutas. Dos nodos de la red son configurados con parámetros casi idénticos de prioridad, velocidad y capacidad.</p>
+                                <p>Al tener dos filas de la matriz casi proporcionales, el sistema genera hiperplanos casi paralelos. Visualmente, los planos de decisión en 3D parecen colapsar en uno solo.</p>
+                                <div class="row mb-3">
+                                    <!-- Fila 1 -->
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a11_mal" class="form-control" value="0" readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a12_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a13_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b1_mal" class="form-control" value="0"readonly>
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a21_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a22_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a23_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b2_mal" class="form-control" value="0"readonly>
+                                    </div>
+                                    <div class="col-md-12 d-flex align-items-center mb-2">
+                                        <input type="number" id="a31_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>1</sub>+</span>
+                                        <input type="number" id="a32_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>2</sub>+</span>
+                                        <input type="number" id="a33_mal" class="form-control" value="0"readonly> <span class="mx-2">x<sub>3</sub>=</span>
+                                        <input type="number" id="b3_mal" class="form-control" value="0"readonly>
+                                    </div>
+                                    <!-- Repetir filas para a21...a33 y b2, b3 con el mismo sufijo _ideal -->
+                                </div>
+                                <div class="accordion" id="acordeonMal">
+
+                                    <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingLU_mal">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_mal">
+                                            <strong class=" fw-bold text-dark">Descomposicion LU</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseLU_mal" class="accordion-collapse collapse show" data-bs-parent="#acordeonMal">
+                                            <div class="accordion-body">
+                                                <!-- Aquí va tu tabla y botón para LU -->
+                                                <!-- LU EMPIEZA AQUI -->
+                                                <!-- SECCIÓN 2: FACTORIZACIÓN LU -->
+                                                <div class="row g-4 mb-5">
+                                                    <div class="col-md-6">
+                                                        <div class="card border-0 shadow-sm">
+                                                            <div class="card-header bg-primary text-white fw-bold">Matriz L</div>
+                                                            <div class="card-body">
+                                                                <table class="table table-bordered text-center font-monospace">
+                                                                    <tr><td id="l11_lu_mal">0</td><td id="l12_lu_mal">0</td><td id="l13_lu_mal">0</td></tr>
+                                                                    <tr><td id="l21_lu_mal">0</td><td id="l22_lu_mal">0</td><td id="l23_lu_mal">0</td></tr>
+                                                                    <tr><td id="l31_lu_mal">0</td><td id="l32_lu_mal">0</td><td id="l33_lu_mal">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card border-0 shadow-sm">
+                                                            <div class="card-header bg-primary text-white fw-bold">Matriz U</div>
+                                                            <div class="card-body">
+                                                                <table class="table table-bordered text-center font-monospace">
+                                                                    <tr><td id="u11_lu_mal">0</td><td id="u12_lu_mal">0</td><td id="u13_lu_mal">0</td></tr>
+                                                                    <tr><td id="u21_lu_mal">0</td><td id="u22_lu_mal">0</td><td id="u23_lu_mal">0</td></tr>
+                                                                    <tr><td id="u31_lu_mal">0</td><td id="u32_lu_mal">0</td><td id="u33_lu_mal">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SECCIÓN 3: MATRICES INVERSAS -->
+                                                <div class="row g-4 mb-5">
+                                                    <div class="col-md-6">
+                                                        <div class="card border-0 shadow-sm">
+                                                            <div class="card-header bg-info text-dark fw-bold">Inversa de L (L⁻¹)</div>
+                                                            <div class="card-body">
+                                                                <table class="table table-bordered text-center font-monospace">
+                                                                    <tr><td id="l1_11_lu_mal">0</td><td id="l1_12_lu_mal">0</td><td id="l1_12_lu_mal">0</td></tr>
+                                                                    <tr><td id="l1_21_lu_mal">0</td><td id="l1_22_lu_mal">0</td><td id="l1_23_lu_mal">0</td></tr>
+                                                                    <tr><td id="l1_31_lu_mal">0</td><td id="l1_32_lu_mal">0</td><td id="l1_33_lu_mal">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="card border-0 shadow-sm">
+                                                            <div class="card-header bg-info text-dark fw-bold">Inversa de U (U⁻¹)</div>
+                                                            <div class="card-body">
+                                                                <table class="table table-bordered text-center font-monospace">
+                                                                    <tr><td id="u1_11_lu_mal">0</td><td id="u1_12_lu_mal">0</td><td id="u1_13_lu_mal">0</td></tr>
+                                                                    <tr><td id="u1_21_lu_mal">0</td><td id="u1_22_lu_mal">0</td><td id="u1_23_lu_mal">0</td></tr>
+                                                                    <tr><td id="u1_31_lu_mal">0</td><td id="u1_32_lu_mal">0</td><td id="u1_33_lu_mal">0</td></tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- SECCIÓN 4: RESULTADOS FINALES -->
+                                                <div class="row g-4">
+                                                    <!-- Vector D -->
+                                                    <div class="col-md-6">
+                                                        <div class="card border-primary border-2 shadow">
+                                                            <div class="card-body">
+                                                                <h5 class="fw-bold text-primary">Vector D</h5>
+                                                                <p class="small font-monospace text-muted">D = L⁻¹ × B</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <table class="table table-bordered border-primary text-center w-50 font-monospace h5">
+                                                                        <tr><td id="d1_lu_mal">0</td></tr>
+                                                                        <tr><td id="d2_lu_mal">0</td></tr>
+                                                                        <tr><td id="d3_lu_mal">0</td></tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Vector X -->
+                                                    <div class="col-md-6">
+                                                        <div class="card border-success border-2 shadow">
+                                                            <div class="card-body">
+                                                                <h5 class="fw-bold text-success">Vector Solución X</h5>
+                                                                <p class="small font-monospace text-muted">X = U⁻¹ × D</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <table class="table table-bordered border-success text-center w-50 font-monospace h5">
+                                                                        <tr class="table-success"><td id="x1_lu_mal">0</td></tr>
+                                                                        <tr class="table-success"><td id="x2_lu_mal">0</td></tr>
+                                                                        <tr class="table-success"><td id="x3_lu_mal">0</td></tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--LU TERMINA AQUI-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Método de Jacobi -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingJacobi_mal">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJacobi_mal">
+                                            <strong class=" fw-bold text-dark">Metodo Jacobi</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseJacobi_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Jacobi</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                            </p>
+                                                            <p>
+                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                            </p>
+                                                            <p>
+                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                            </p>
+                                                            <dic class="text-center">
+                                                                <div class="ecuacion">
+                                                                    (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                                    (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                                    (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                                </div>
+                                                                <div class="despeje">
+                                                                    <!-- Despeje de X -->
+                                                                    <strong>Para x:</strong><br>
+                                                                    x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Y -->
+                                                                    <strong>Para y:</strong><br>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Z -->
+                                                                    <strong>Para z:</strong><br>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                </div>
+                                                            </dic>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="jac_01_mal">0</td>
+                                                                    <td id="jac_02_mal">0</td>
+                                                                    <td id="jac_03_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="jac_11_mal">0</td>
+                                                                    <td id="jac_12_mal">0</td>
+                                                                    <td id="jac_13_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="jac_21_mal">0</td>
+                                                                    <td id="jac_22_mal">0</td>
+                                                                    <td id="jac_23_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="jac_31_mal">0</td>
+                                                                    <td id="jac_32_mal">0</td>
+                                                                    <td id="jac_33_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="jac_41_mal">0</td>
+                                                                    <td id="jac_42_mal">0</td>
+                                                                    <td id="jac_43_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="jac_51_mal">0</td>
+                                                                    <td id="jac_52_mal">0</td>
+                                                                    <td id="jac_53_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="jac_61_mal">0</td>
+                                                                    <td id="jac_62_mal">0</td>
+                                                                    <td id="jac_63_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="jac_71_mal">0</td>
+                                                                    <td id="jac_72_mal">0</td>
+                                                                    <td id="jac_73_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="jac_81_mal">0</td>
+                                                                    <td id="jac_82_mal">0</td>
+                                                                    <td id="jac_83_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="jac_91_mal">0</td>
+                                                                    <td id="jac_92_mal">0</td>
+                                                                    <td id="jac_93_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="jac_101_mal">0</td>
+                                                                    <td id="jac_102_mal">0</td>
+                                                                    <td id="jac_103_mal">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_jac_mal">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_jac_por_mal">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Método de Gauss-Seidel -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingSeidel_mal">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeidel_mal">
+                                            <strong class=" fw-bold text-dark">Metodo Seidel</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseSeidel_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Jacobi</h3>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p>
+                                                                La base de este metodo es el despeje de las variables de cada ecuacion del sistema de ecuaciones del ejercicio.
+                                                            </p>
+                                                            <p>
+                                                                Una vez despejadas las variables necesarias, el metodo iterativo de Jacobi se caracteriza por tomar valores iniciales 0 para todas las variables y reemplazarlas en nuestros despejes, las evaluamos y obtendremos nuevos valores de variables, estos nuevos valores las volvemos a evaluar en los despejes para obtener otros valores nuevos, esto se repite a cuantas iteraciones se vean necesarias para resolver el sistema de ecuaciones. 
+                                                            </p>
+                                                            <p>
+                                                                Para el presente caso de estudio, veremos la forma general del sistema de ecuaciones 3x3, y como realizamos los despejes para poder iniciar el metodo iterativo. 
+                                                            </p>
+                                                            <dic class="text-center">
+                                                                <div class="ecuacion">
+                                                                    (1) a<sub>11</sub>x + a<sub>12</sub>y + a<sub>13</sub>z = b<sub>1</sub> <br>
+                                                                    (2) a<sub>21</sub>x + a<sub>22</sub>y + a<sub>23</sub>z = b<sub>2</sub> <br>
+                                                                    (3) a<sub>31</sub>x + a<sub>32</sub>y + a<sub>33</sub>z = b<sub>3</sub>
+                                                                </div>
+                                                                <div class="despeje">
+                                                                    <!-- Despeje de X -->
+                                                                    <strong>Para x:</strong><br>
+                                                                    x<sub>k+1</sub> = (b<sub>1</sub> - a<sub>12</sub>y<sub>k</sub> - a<sub>13</sub>z<sub>k</sub>) / a<sub>11</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Y -->
+                                                                    <strong>Para y:</strong><br>
+                                                                    y<sub>k+1</sub> = (b<sub>2</sub> - a<sub>21</sub>x<sub>k</sub> - a<sub>23</sub>z<sub>k</sub>) / a<sub>22</sub>
+                                                                    <br><br>
+
+                                                                    <!-- Despeje de Z -->
+                                                                    <strong>Para z:</strong><br>
+                                                                    z<sub>k+1</sub> = (b<sub>3</sub> - a<sub>31</sub>x<sub>k</sub> - a<sub>32</sub>y<sub>k</sub>) / a<sub>33</sub>
+                                                                </div>
+                                                            </dic>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 p-1">
+                                                    <div class="text-center">
+                                                        <h3 class="h3">Tabla de Iteraciones</h3>
+                                                    </div>
+                                                    <table class="table table-bordered border-success">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Iter.</th>
+                                                                <th scope="col">x<sub>1</sub></th>
+                                                                <th scope="col">x<sub>2</sub></th>
+                                                                <th scope="col">x<sub>3</sub></th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>0</td>
+                                                                    <td id="sei_01_mal">0</td>
+                                                                    <td id="sei_02_mal">0</td>
+                                                                    <td id="sei_03_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td id="sei_11_mal">0</td>
+                                                                    <td id="sei_12_mal">0</td>
+                                                                    <td id="sei_13_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2</td>
+                                                                    <td id="sei_21_mal">0</td>
+                                                                    <td id="sei_22_mal">0</td>
+                                                                    <td id="sei_23_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3</td>
+                                                                    <td id="sei_31_mal">0</td>
+                                                                    <td id="sei_32_mal">0</td>
+                                                                    <td id="sei_33_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>4</td>
+                                                                    <td id="sei_41_mal">0</td>
+                                                                    <td id="sei_42_mal">0</td>
+                                                                    <td id="sei_43_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td id="sei_51_mal">0</td>
+                                                                    <td id="sei_52_mal">0</td>
+                                                                    <td id="sei_53_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>6</td>
+                                                                    <td id="sei_61_mal">0</td>
+                                                                    <td id="sei_62_mal">0</td>
+                                                                    <td id="sei_63_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>7</td>
+                                                                    <td id="sei_71_mal">0</td>
+                                                                    <td id="sei_72_mal">0</td>
+                                                                    <td id="sei_73_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>8</td>
+                                                                    <td id="sei_81_mal">0</td>
+                                                                    <td id="sei_82_mal">0</td>
+                                                                    <td id="sei_83_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>9</td>
+                                                                    <td id="sei_91_mal">0</td>
+                                                                    <td id="sei_92_mal">0</td>
+                                                                    <td id="sei_93_mal">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td id="sei_101_mal">0</td>
+                                                                    <td id="sei_102_mal">0</td>
+                                                                    <td id="sei_103_mal">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                    <div class="mt-1 mb-1">
+                                                        <p>
+                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <p>E_rel = <strong id="e_rel_sei_mal">0</strong></p>
+                                                            <p>E_rel_% = <strong id="e_rel_sei_por_mal">0</strong>%</p>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Método SOR (Sobrerelajación) -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingSOR_mal">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSOR_mal">
+                                            <strong class=" fw-bold text-dark">Metodo de Sobrerelajación Sucesiva</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseSOR_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
+                                        <div class="accordion-body">
+                                            <p>Contenido para el método SOR.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Gradiente Conjugado Precondicionado -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingGradiente_mal">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGradiente_mal">
+                                            <strong class=" fw-bold text-dark">Gradiente Conjugado Precondicionado</strong>
+                                        </button>
+                                        </h2>
+                                        <div id="collapseGradiente_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
+                                        <div class="accordion-body">
+                                            <p>Contenido para Gradiente Conjugado.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                        <strong class=" fw-bold text-dark">Analisis de resultados</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <!--DESCRIPCION DEL CASO BAJO ESTRES-->
+                        <div class="card">
+                            <div class="card-body">
+                                <p><strong>La siguiente tabla mostramos la eficiencia de los metodos empleados para los diferentes casos hipoteticos</strong></p>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Metodo</th>
+                                            <th scope="col">Iter (ideal)</th>
+                                            <th scope="col">Iter (stress)</th>
+                                            <th scope="col">Iter (Mal C)</th>
+                                            <th scope="col">Conv. (S/N)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">Jacobi</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Gauss-Seidel</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">SOR</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Grad. Conj. Prec</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col"> Factorizacion LU</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                            <th>0</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p>Aquie podremos las conclusiones de los procedimientos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                        <strong class=" fw-bold text-dark">Graficas</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        si se puede aqui estarn las graficas
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/generarDatos.js"></script>
+    <script src="js/extra.js"></script>
+    <script src="js/descomposicion.js"></script>
+    <script src="js/principalLU.js"></script>
+    <script src="js/jacobi.js"></script>
+    <script src="js/principalJacobi.js"></script>
+    <script src="js/seidel.js"></script>
+    <script src="js/principalSeidel.js"></script>
+</body>
+</html>
