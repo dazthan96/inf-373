@@ -18,11 +18,65 @@
             </a>
         </div>
     </nav>
-    <div class="container p-2" style="background-color: #f5f3f2">
+    <div class="container p-2" style="background-color: #f5f3f2; height:100vh">
         <div class="text-center mb-5">
             <h1 class="display-6 fw-bold text-dark">Balance de Carga en Nodos de Edge Computing para IA</h1>
         </div>
+        <div class="card  mb-3">
+            <!--INTRODUCCION Y MANUAL DE LA PAGINA WEB-->
+            <div class="card-body">
+                <h5 class="card-title text-center">
+                    Manual de uso e indicaciones relevantes
+                </h5>
+                <hr>
+                <p>
+                    En la seccion Descripcion del Caso de Estudio tenemos los detalles tecnicos del caso de estudio elegido, en esta seccion se explica de que trata el caso de estudio, las variables empleadas y su funcion en el caso, como tambien una breve descripcion de cada ecuacion.
+                </p>
+                <p>
+                    En las secciones de caso ideal, bajo estres y mal condicionado, se detalla escenarios teoricos del caso de estudio, escenarios que pueden presentarse en la practica.
+                </p>
+                <p>
+                    En la seccion de caso ideal tenemos cuadros de texto en las ecuaciones, esta es la seccion donde puede modificar el valor de los coeficientes para el caso ideal, para el caso bajo estres y mal condicionado se trabaja con este sistema de ecuaciones del caso ideal para generar valores a los demas escenarios.
+                </p>
+                <p>
+                    En el caso ideal tenemos cinco botones, antes de revisar las demas secciones es necesario presionar todos lo botones para completar las demas secciones, la funcion de cada boton se detalla a continuacion
+                </p>
+                <ul>
+                    <li>
+                        <strong>Generar Datos: </strong>Toma los datos de la ecuacion del caso ideal para llenar las ecuaciones de los otros casos (el caso bajo estres y mal condicionado tiene coefientes iniciales con valor a cero).
+                    </li>
+                    <li>
+                        <strong>Descomposicion Lu: </strong> Captura los datos de los sistemas de ecuaciones de los tres casos y resuelve el sistema de ecuaciones, dando la solucion exacta
+                    </li>
+                    <li>
+                        <strong>Jacobi: </strong>Resuelve los sistemas de ecuaciones mediante el metodo jacobi.
+                    </li>
+                    <li>
+                        <strong>Seidel: </strong>Resulve los sistemas de ecuaiones empleando el metodo Seidel.
+                    </li>
+                    <li>
+                        <strong>SOR: </strong>Toma los sistemas de ecuaciones y los resuelve por el metodo de Sobre Relajacion Sucesiva.
+                    </li>
+                    <li>
+                        <strong>Gradiente: </strong>Toma los datos de los sistemas de ecuaiones y los resuelve empleando el metodo de Gradiente Conjugado Precondicionado
+                    </li>
+                </ul>
+                <p>
+                    Una vez presione los botones, puede ir a la seccion de Graficos, y vera dos sub secciones, la primera es la reprentacion 3D de los sistemas de ecuaciones (cada sistema de ecuaciones forma 3 planos), estos graficos de los planos no son iteractivos y no se pueden alterar, tiene los valores de los casos en su estado base.
+                </p>
+                <p>
+                    Para el siguiente grafico es necesario haber presionado todos los botones del caso ideal y presionar el boton Actualizar graficas.
+                </p>
+                <p>
+                    La segunda sub seccion es la de los graficos lineales, estos grafica comparan los valores de los diferentes metodos iterativos con los valores de la solucion exacta obtenida usando descomposicion LU, este grafico es interactivo, si modifica valores en la ecuacion del caso ideal y vuelve a presionar los botones, este grafico se modificara
+                </p>
+                <p>
+                    El contenido de la seccion Analisis de resultados se tiene el analisis del caso base.
+                </p>
+            </div>
+        </div>
         <div class="accordion accordion-flush" id="accordionFlushExample">
+            <!--DESCRIPCION DEL CASO DE ESTUDIO-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -113,6 +167,7 @@
                     </div>
                 </div>
             </div>
+            <!--CASO BIEN CONDICONADO-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -167,11 +222,11 @@
                             <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingLU_ideal">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_ideal">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_ideal">
                                     <strong class=" fw-bold text-dark">Descomposicion LU</strong>
                                 </button>
                                 </h2>
-                                <div id="collapseLU_ideal" class="accordion-collapse collapse show"  data-bs-parent="#acordeonIdeal">
+                                <div id="collapseLU_ideal" class="accordion-collapse collapse"  data-bs-parent="#acordeonIdeal">
                                 <div class="accordion-body">
                                     <!-- LU EMPIEZA AQUI -->
                                      <!-- SECCIÓN 2: FACTORIZACIÓN LU -->
@@ -408,12 +463,8 @@
                                             </table>
                                             <div class="mt-1 mb-1">
                                                 <p>
-                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                    Si tomamos los resultados del metodo de descomposicion LU como la solucion exacta, podemos ver que el metodo iterativo de Jacobi logra el resutlado en la 10ma iteracion, mostrando que para sistemas de ecuaciones bien condicionados, jacobi es efectivo para encontrar la solucion. 
                                                 </p>
-                                                <div class="text-center">
-                                                    <p>E_rel = <strong id="e_rel_jac_ideal">0</strong></p>
-                                                    <p>E_rel_% = <strong id="e_rel_jac_por_ideal">0</strong>%</p>
-                                                </div>
                                                 
                                             </div>
                                         </div>
@@ -555,13 +606,8 @@
                                             </table>
                                             <div class="mt-1 mb-1">
                                                 <p>
-                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                    Al comparar la solucion exacta brindada por el metodo de descomposicion LU, podemos apreciar que el metodo iterativo de Seidel alcanzo la misma solucion en la iteracion 5ta, demostrando ser mas efectiva que Jacobi.
                                                 </p>
-                                                <div class="text-center">
-                                                    <p>E_rel = <strong id="e_rel_sei_ideal">0</strong></p>
-                                                    <p>E_rel_% = <strong id="e_rel_sei_por_ideal">0</strong>%</p>
-                                                </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -690,12 +736,13 @@
                                             </table>
                                             <div class="mt-1 mb-1">
                                                 <p>
-                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                    La solucion exacta brindada por el metodo de descomposicion LU nos sirve como parametro para comparar la efectividad de los metodos, en el caso de Sobrerelajación Sucesiva podemos ver que alcanzo la solucion exacta en la iteracion 8, esto podria deberse a que al ser un sistema de ecuaciones bien condicionado, no es necesario tener un factor de peso omega:
+                                                    <ul>
+                                                        <li>Si el factor omega es muy grande, puede desestabilizar el sistema a medida que las iteraciones avanzan.</li>
+                                                        <li>Si el factor omega es cercano a 1 (o 1) no sera mas eficiente que el metodo de Seidel.</li>
+                                                        
+                                                    </ul> 
                                                 </p>
-                                                <div class="text-center">
-                                                    <p>E_rel = <strong id="e_rel_sor_ideal">0</strong></p>
-                                                    <p>E_rel_% = <strong id="e_rel_sor_por_ideal">0</strong>%</p>
-                                                </div>
                                                 
                                             </div>
                                         </div>
@@ -826,12 +873,8 @@
                                             </table>
                                             <div class="mt-1 mb-1">
                                                 <p>
-                                                    Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                    Al emplear el metodo de Gradiente Conjugado Precondicionado y comparar su resultado con la solucion del metodo de descomposicion LU, podemos apreciar que el metodo de gradiente conjugado precondicionado logra la solucion exacta en la iteracion numero 3, siendo el metodo iterativo mas efectivo para sistemas de ecuaciones bien condicionadas.
                                                 </p>
-                                                <div class="text-center">
-                                                    <p>E_rel = <strong id="e_rel_gpc_ideal">0</strong></p>
-                                                    <p>E_rel_% = <strong id="e_rel_gpc_por_ideal">0</strong>%</p>
-                                                </div>
                                                 
                                             </div>
                                         </div>
@@ -845,6 +888,7 @@
                     </div>
                 </div>
             </div>
+            <!--CASO BAJO ESTRES-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -888,11 +932,11 @@
                                     <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingLU_estres">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_estres">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_estres">
                                             <strong class=" fw-bold text-dark">Descomposicion LU</strong>
                                         </button>
                                         </h2>
-                                        <div id="collapseLU_estres" class="accordion-collapse collapse show" data-bs-parent="#acordeonEstres">
+                                        <div id="collapseLU_estres" class="accordion-collapse collapse" data-bs-parent="#acordeonEstres">
                                         <div class="accordion-body">
                                             <!-- Aquí va tu tabla y botón para LU -->
                                             <!-- LU EMPIEZA AQUI -->
@@ -1130,12 +1174,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Si tomamos los resultados del metodo de descomposicion LU como la solucion exacta, podemos ver que el metodo iterativo de Jacobi logra el resultado en la 10ma iteracion, debemos pensar que el caso bajo estres sigue siendo un sistema de ecuaciones bien condicionado. 
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_jac_estres">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_jac_por_estres">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -1278,12 +1318,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Al comparar la solucion exacta brindada por el metodo de descomposicion LU, podemos apreciar que el metodo iterativo de Seidel alcanzo la misma solucion en la iteracion 5ta, demostrando ser mas efectiva que Jacobi.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_sei_estres">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_sei_por_estres">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -1414,12 +1450,13 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            La solucion exacta brindada por el metodo de descomposicion LU nos sirve como parametro para comparar la efectividad de los metodos, en el caso de Sobrerelajación Sucesiva podemos ver que alcanzo la solucion exacta en la iteracion 8, esto podria deberse a que al ser un sistema de ecuaciones bien condicionado, no es necesario tener un factor de peso omega:
+                                                            <ul>
+                                                                <li>Si el factor omega es muy grande, puede desestabilizar el sistema a medida que las iteraciones avanzan.</li>
+                                                                <li>Si el factor omega es cercano a 1 (o 1) no sera mas eficiente que el metodo de Seidel.</li>
+                                                                
+                                                            </ul> 
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_sor_estres">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_sor_por_estres">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -1550,12 +1587,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Al emplear el metodo de Gradiente Conjugado Precondicionado y comparar su resultado con la solucion del metodo de descomposicion LU, podemos apreciar que el metodo de gradiente conjugado precondicionado logra la solucion exacta en la iteracion numero 3, siendo el metodo iterativo mas efectivo para sistemas de ecuaciones bien condicionadas.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_gpc_estres">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_gpc_por_estres">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -1570,6 +1603,7 @@
                     </div>
                 </div>
             </div>
+            <!--CASO MAL CONDICONADO-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
@@ -1614,11 +1648,11 @@
                                     <!-- 1. Descomposición LU (Lo ponemos de primero por ser el que ya tienes) -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingLU_mal">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_mal">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLU_mal">
                                             <strong class=" fw-bold text-dark">Descomposicion LU</strong>
                                         </button>
                                         </h2>
-                                        <div id="collapseLU_mal" class="accordion-collapse collapse show" data-bs-parent="#acordeonMal">
+                                        <div id="collapseLU_mal" class="accordion-collapse collapse" data-bs-parent="#acordeonMal">
                                             <div class="accordion-body">
                                                 <!-- Aquí va tu tabla y botón para LU -->
                                                 <!-- LU EMPIEZA AQUI -->
@@ -1855,12 +1889,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Al estar en un caso de sistema de ecuaciones mal condicionado y tomar la solucion exacta que se obtiene por el metodo de descomposicion LU, podemos darnos cuenta que a medida que las iteraciones van aumentando, el sistema se vuelve inestable y nunca podra converger a la solucion exacta.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_jac_mal">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_jac_por_mal">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -2002,13 +2032,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Para el metodo de Seidel usando como base la solucion brindada por el metodo de descomposicion LU, podemos que el sistema nunca converge en la solucion, al principio de las iteracion se desestabiliza, pero se estabiliza en la iteracion 4 sin llegar a la solucion.    
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_sei_mal">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_sei_por_mal">0</strong>%</p>
-                                                        </div>
-                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -2137,12 +2162,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Al igual que en los demas metodos iterativos para sistemas de ecuaciones mal condicionados, el metodo de sobre relación sucesiva nunca converger en la solucion exacta, pero logra establizarse en la iteracion 4.    
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_sor_mal">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_sor_por_mal">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -2273,12 +2294,8 @@
                                                     </table>
                                                     <div class="mt-1 mb-1">
                                                         <p>
-                                                            Para determinar el error de nuestra iteracion, podemos comparar el valor obtenido por el metodo de descomposicion LU con el ultimo valor de nuestra iteracion, de esta manera obtenemos los siguiente:
+                                                            Para el metodo de Gradiente Conjugado Precondicionado, se puede observa que tampoco se puede llegar a la solucion exacta, sin embargo logra estabilizarse en la iteracion 2.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <p>E_rel = <strong id="e_rel_gpc_mal">0</strong></p>
-                                                            <p>E_rel_% = <strong id="e_rel_gpc_por_mal">0</strong>%</p>
-                                                        </div>
                                                         
                                                     </div>
                                                 </div>
@@ -2293,6 +2310,7 @@
                     </div>
                 </div>
             </div>
+            <!--INTERPRETACION-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
@@ -2303,8 +2321,26 @@
                     <div class="accordion-body">
                         <div class="card">
                             <div class="card-body">
-                                <p><strong>La siguiente tabla mostramos la eficiencia de los metodos empleados para los diferentes casos hipoteticos</strong></p>
-                                <table class="table">
+                                <div class="card-body">
+                                    <p>En las secciones anteriores se puede apreciar el desarrollo de cinco metodos de resolucion de sistemas de ecuaciones, se tiene al metodo de descomposicion Lu como metodo directo para obtener la solucion exacta y como metodos iterativos tenemos a Jacobi, Seidel, Sobre Relajacion Sucesiva y el metodo de Gradiente Conjugado Precondicionado</p>
+                                    <p>Estos cinco metodos se aplican a tres esecenarios particulares de nuestro caso de estudio</p>
+                                    <ul>
+                                        <li><strong>Caso Ideal: </strong> El caso ideal es un sistema ecuaciones bien condicionada, tienen una solucion exacta al que convergen los metodos metodos iterativos en menos de diez iteraciones</li>
+                                        <li><strong>Caso Bajo Estres: </strong> Mediante un algoritmo en javascript, usamos como base el sistema de ecuaciones del caso bien condicionado y procedemos a incrementar sus coeficientes, al hacer este proceso, el sistema de ecuaciones de este caso se mantiene como un sistema bien condicionado y los metodos iterativos pueden llegar a la solucion exacta en diez o menos iteraciones.</li>
+                                        <li><strong>Caso Mal Condicionado: </strong> En el caso mal condicionado lo que hizo es que dos ecuaciones del sistema de ecuaciones son casi paralelos entre si, si bien existe un punto de solucion exacta (obtenida por el metodo de descomposicion LU) los metodos iterativos nunca podran convergen a la solucion exacta por la naturaleza de dos planos casi paralelos</li>
+                                    </ul>
+                                    <p>
+                                        Para este analisis de resultados, solo se tomara el caso base original.
+                                    </p>
+                                    <p>
+                                        Para ver el comportamiento y naturaleza de cada sistema de ecuaciones, en el apartado de Graficos -> Graficos 3d, podemos ver la representacion de planos de los tres casos.
+                                    </p>
+                                    <p>
+                                        A continuacion, se presenta una tabla donde se centralizara los resultados de los 5 metodos para los tres escenarios del caso de estudio.
+                                    </p>
+                                </div>
+                                
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">Metodo</th>
@@ -2317,47 +2353,134 @@
                                     <tbody>
                                         <tr>
                                             <th scope="col">Jacobi</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <td>10</td>
+                                            <td>10</td>
+                                            <td>0</td>
+                                            <td>SI - SI - NO</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Gauss-Seidel</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <td>5</td>
+                                            <td>5</td>
+                                            <td>0</td>
+                                            <td>SI - SI - NO</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">SOR</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <td>8</td>
+                                            <td>8</td>
+                                            <td>0</td>
+                                            <td>SI - SI - NO</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Grad. Conj. Prec</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <td>3</td>
+                                            <td>3</td>
+                                            <td>0</td>
+                                            <td>SI - SI - NO</td>
                                         </tr>
                                         <tr>
                                             <th scope="col"> Factorizacion LU</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
-                                            <th>0</th>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>Solucion exacta</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p>Aquie podremos las conclusiones de los procedimientos</p>
+                            </div>
+                            <div class="card-body">
+                                <section>
+                                    
+                                    <div>
+                                        <h4>1. Referencia de Control</h4>
+                                        <p>
+                                            Se utiliza como parámetro de comparativa la <strong>solución exacta</strong> obtenida mediante el método de <strong>Descomposición LU</strong>. Al ser un método directo, nos permite establecer el punto de llegada real y determinar con precisión en qué iteración convergen los métodos iterativos.
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h4>2. Comportamiento en Sistemas Mal Condicionados</h4>
+                                        <p>
+                                            El caso más evidente de inestabilidad es el sistema mal condicionado. Aunque teóricamente existe una solución exacta, ningún método iterativo logra converger a ella. Esto se debe a la geometría del sistema: tenemos dos planos casi paralelos cuya intersección no es un punto definido con claridad, sino una región de incertidumbre donde cualquier cambio mínimo en los coeficientes altera drásticamente el resultado.
+                                        </p>
+                                        <p>
+                                            Matemáticamente, este sistema posee una <strong>matriz casi singular</strong> (determinante cercano a cero). Los métodos iterativos requieren que una ecuación "domine" sobre las otras para guiar el proceso. Al ser casi dependientes, el algoritmo pierde su "brújula" numérica:
+                                        </p>
+                                        <ul>
+                                            <li><strong>Jacobi:</strong> Entra en un bucle infinito, saltando entre valores positivos y negativos sin reducir el error.</li>
+                                            <li><strong>Seidel, SOR y GCP:</strong> Se estancan en la iteración cuatro, ocho y tres respectivamente. En lugar de avanzar, oscilan en una vecindad lejana a la solución exacta debido a la falta de precisión numérica.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <h4>3. Comparativa de Eficiencia: Ideal vs. Estrés</h4>
+                                        <p>
+                                            Los casos "Ideal" y "Bajo Estrés" comparten una estructura de sistema bien condicionado. El caso de estrés presenta ecuaciones ligeramente <strong>perturbadas</strong> respecto al ideal; sin embargo, ambos conservan la estabilidad suficiente para converger a la solución exacta con un esfuerzo computacional similar.
+                                        </p>
+                                        
+                                        <p><strong>Jerarquía de Eficiencia observada:</strong></p>
+                                        <ol>
+                                            <li>
+                                                <strong>Gradiente Conjugado Precondicionado (GCP):</strong> Es el más eficiente, alcanzando la solución en solo <strong>3 iteraciones</strong>. Esto demuestra que una buena dirección de búsqueda combinada con precondicionamiento permite una aproximación casi inmediata.
+                                            </li>
+                                            <li>
+                                                <strong>Gauss-Seidel:</strong> Logra la convergencia en <strong>5 iteraciones</strong>, superando significativamente a Jacobi al utilizar valores actualizados en tiempo real durante cada iteración.
+                                            </li>
+                                            <li>
+                                                <strong>Sobre-Relajación Sucesiva (SOR):</strong> Aunque teóricamente debería superar a Seidel gracias al factor de peso <em>omega</em> (&omega;), en este caso particular tardó <strong>8 iteraciones</strong>. Esto evidencia que un factor omega mal calibrado puede reducir la eficiencia, haciendo el paso demasiado grande o pequeño para la naturaleza del sistema.
+                                            </li>
+                                            <li>
+                                                <strong>Jacobi:</strong> Resultó ser el método menos eficiente, requiriendo <strong>10 iteraciones</strong> para alcanzar la convergencia.
+                                            </li>
+                                        </ol>
+                                    </div>
+
+                                    <div>
+                                        <h4>4. Conclusión sobre Factorización LU</h4>
+                                        <p>
+                                            La <strong>Factorización LU</strong> se posiciona como el referente absoluto. A diferencia de los métodos iterativos, no requiere aproximaciones sucesivas y entrega la solución en un solo paso. Es el único método que arroja un resultado útil en el caso de mal condicionamiento, siempre y cuando el sistema no sea estrictamente singular.
+                                        </p>
+                                    </div>
+                                </section>
+                                
+                                <div>
+                                    <h4>5. Análisis del Precondicionador de Jacobi en GCP</h4>
+                                    
+                                    <p>
+                                        El método del <strong>Gradiente Conjugado Precondicionado (GCP)</strong> busca optimizar la resolución de sistemas lineales transformando el "espacio" del problema para que el algoritmo encuentre la solución más rápido.
+                                    </p>
+
+                                    <h5>¿Cuál es la función del Precondicionador de Jacobi?</h5>
+                                    <p>
+                                        El precondicionador de Jacobi es una técnica de <strong>escalamiento diagonal</strong>. Consiste en tomar únicamente los elementos de la diagonal principal de la matriz original y utilizarlos para normalizar el sistema.
+                                    </p>
+
+                                    <ul>
+                                        <li>
+                                            <strong>Efecto Geométrico:</strong> En sistemas mal condicionados, la superficie de error suele ser un "valle" muy alargado y estrecho. El precondicionador de Jacobi intenta "redondear" este valle, haciendo que el camino hacia el mínimo sea más directo y menos propenso a oscilaciones.
+                                        </li>
+                                        <li>
+                                            <strong>Mejora del Condicionamiento:</strong> Su objetivo es reducir el <em>número de condición</em> de la matriz. Al equilibrar las magnitudes de los coeficientes, el algoritmo requiere menos iteraciones para converger.
+                                        </li>
+                                    </ul>
+
+                                    <h5>Limitaciones en Casos Críticos</h5>
+                                    <p>
+                                        Aunque es muy eficiente computacionalmente por su simplicidad, el precondicionador de Jacobi tiene limitaciones importantes:
+                                    </p>
+                                    
+                                    <p>
+                                        En el <strong>Caso de Mal Condicionamiento</strong> (donde las ecuaciones son casi paralelas), este precondicionador suele fallar. Esto se debe a que Jacobi solo corrige la escala de las variables, pero no puede resolver la fuerte dependencia lineal entre las ecuaciones. Si los planos son casi coincidentes, el "redondeo" de la diagonal no es suficiente para guiar al método hacia un punto de intersección único, lo que resulta en la <strong>no convergencia</strong> del sistema.
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--GRAFICAS-->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
@@ -2367,47 +2490,150 @@
                 <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
                         
-                        <div class="card mb-4 shadow">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="m-0">Caso: Bien Condicionado (Ideal)</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_ideal"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_ideal"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_ideal"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="accordion" id="accordionSistemas">
+        
+                            <!-- GRUPO 1: Geometría de los Planos -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                        <strong class=" fw-bold text-dark">Graficas 3D del sistema de ecuaciones</strong>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSistemas">
+                                    <div class="accordion-body">
+                                        <p class="text-muted">Intersección de los planos.</p>
+                                        <!--CARRUSEL DE PLANOS 3D -->
+                                        
+                                        <div id="carouselPlanos" class="carousel slide carousel-fade" data-bs-ride="false">
+                                            <!-- Indicadores (Rayitas abajo) -->
+                                            <div class="carousel-indicators">
+                                                <button type="button" data-bs-target="#carouselPlanos" data-bs-slide-to="0" class="active"></button>
+                                                <button type="button" data-bs-target="#carouselPlanos" data-bs-slide-to="1"></button>
+                                                <button type="button" data-bs-target="#carouselPlanos" data-bs-slide-to="2"></button>
+                                            </div>
 
-                        <div class="card mb-4 shadow">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="m-0">Caso: Sistema Bajo EStres</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_estres"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_estres"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_estres"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
+                                            <div class="carousel-inner">
+                                                <!-- Slide 1: Bien Condicionado -->
+                                                <div class="carousel-item active">
+                                                    <img src="./img/bien_condicionado.png" class="d-block w-100" alt="Sistema Estable" style="max-height: 500px; object-fit: contain;">
+                                                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded">
+                                                        <h5>Bien Condicionado</h5>
+                                                        <p>Los planos se cortan en ángulos rectos o amplios. La solución es única y cambios mínimos en los datos no afectan el resultado.</p>
+                                                    </div>
+                                                </div>
 
-                        <div class="card mb-4 shadow">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="m-0">Caso: Mal Condicionado</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_mal"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_mal"></canvas></div>
-                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_mal"></canvas></div>
+                                                <!-- Slide 2: Bajo Estrés -->
+                                                <div class="carousel-item">
+                                                    <img src="./img/bajo_estres.png" class="d-block w-100" alt="Sistema Bajo Estrés" style="max-height: 500px; object-fit: contain;">
+                                                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                                                        <h5>Bajo Estrés</h5>
+                                                        <p>Al elevar los coeficientes de las variables y los terminos independientes escalando en el sistema bien condicionado, el sistema bajo estres sigue siendo un sistema de ecuaciones bien condicionada .</p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Slide 3: Mal Condicionado -->
+                                                <div class="carousel-item">
+                                                    <img src="./img/mal_condicionado.png" class="d-block w-100" alt="Sistema Inestable" style="max-height: 500px; object-fit: contain;">
+                                                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                                                        <h5>Mal Condicionado (Inestable)</h5>
+                                                        <p>Los planos son casi paralelos. Pequeños errores de redondeo pueden desplazar la solución drásticamente.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Controles -->
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPlanos" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Anterior</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselPlanos" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Siguiente</span>
+                                            </button>
+                                        </div>
+
+                                        <!--HASTA AQUI-->
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- GRUPO 2: Métodos Iterativos -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                        <strong class=" fw-bold text-dark">Grafica lineal de los Metodos iterativos</strong>
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionSistemas">
+                                    <div class="accordion-body">
+                                        <p class="text-muted">Se emplean el resultado obtenido de la descomposicion LU para realizar la diferencia entre LU y el resultado de los diferentes metodos iterativos</p>
+                                        <!-- Aquí va tu div de Plotly para las líneas de iteración -->
+                                        <div id="graficoIteraciones" style="width:100%; height:500px;">
+                                            <!--CARRUSEL DE ITERACIONES-->
+
+                                            <div id="carouselIteraciones" class="carousel carousel-dark slide">
+                                                <div class="carousel-inner">
+                                                    <div class="carousel-item active">
+                                                        <div class="card mb-4 shadow">
+                                                            <div class="card-header bg-primary text-white">
+                                                                <h5 class="m-0">Caso: Bien Condicionado (Ideal)</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_ideal"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_ideal"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_ideal"></canvas></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <div class="card mb-4 shadow">
+                                                            <div class="card-header bg-primary text-white">
+                                                                <h5 class="m-0">Caso: Sistema Bajo EStres</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_estres"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_estres"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_estres"></canvas></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="carousel-item">
+                                                        <div class="card mb-4 shadow">
+                                                            <div class="card-header bg-primary text-white">
+                                                                <h5 class="m-0">Caso: Mal Condicionado</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartX_mal"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartY_mal"></canvas></div>
+                                                                    <div class="col-md-4" style="height: 300px;"><canvas id="chartZ_mal"></canvas></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselIteraciones" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon"></span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselIteraciones" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon"></span>
+                                                </button>
+                                            </div>
+
+                                            <!--HASTA AQUI-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                        
+                       
                         <!-- Botón para disparar todo -->
-                        <div class="text-center">
+                        <div class="text-center mt-3">
                             <button onclick="iniciarGraficacion()" class="btn btn-success btn-lg">Actualizar Gráficas</button>
                         </div>
 
