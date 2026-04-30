@@ -2391,16 +2391,148 @@
                             </div>
                             <div class="card-body">
                                 <section>
-                                    
                                     <div>
-                                        <h4>1. Referencia de Control</h4>
+                                        <h4>1. Interpretacion de los resultados para cada escenario</h4>
+                                        <p>
+                                            Tras resolver los sistemas de ecuaciones lineales <span>Ax = b</span> mediante diferentes métodos numéricos (directos e indirectos) para los diferentes escenarios del caso de estudio (caso ideal, caso bajo estres y caso mal condicoinado), obtenemos la siguiente interpretacion de los restultados:
+                                        </p>
+                                            <div>
+                                                <h5>Análisis de Equilibrio: Escenario de Operación Nominal del Sistema</h5>
+                                                <p>
+                                                    En el caso ideal se obtuvo el siguiente vector de resultados: <span>x ≈ (3.3092, 2.9837, 3.9620)</span>, se desprenden las siguientes conclusiones técnicas:
+                                                </p>
+                                            <h6>1. Nodo de Borde (x₁): Eficiencia en el Pre-procesamiento</h6>
+                                            <p>
+                                                Con una carga de <span>3.3092</span> unidades, se concluye que el sistema realiza un filtrado de datos agresivo en la fuente. Esto es vital para reducir la latencia total, permitiendo que solo la información relevante viaje por la red, optimizando así el uso de microcontroladores de baja potencia.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>2. Nodo de Agregación Local (x₂): Estabilización de Capacidad</h6>
+                                            <p>
+                                                El valor de <span>2.9837</span> (el menor de los tres) indica que el nivel de <em>Fog Computing</em> actúa como un regulador. Su función no es absorber la carga pesada, sino servir de puente de baja latencia, manteniendo recursos de reserva para absorber picos de demanda sin comprometer la integridad de los datos.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>3. Nodo Cloud (x₃): Escalabilidad y Procesamiento de Fondo</h6>
+                                            <p>
+                                                El resultado <span>3.9620</span> muestra que la mayor carga se delega a la nube. Esto demuestra que, bajo condiciones normales de red, el sistema aprovecha la capacidad "infinita" de la VRAM en servidores remotos para las tareas más complejas, siempre que el ancho de banda soporte el costo de comunicación.
+                                            </p>
+                                        </div>
+
+                                        <h6>4. Análisis del Método Numérico y Convergencia</h6>
+                                        <p>
+                                            Desde la perspectiva de los métodos numéricos, la matriz <strong>A</strong> presenta <span>dominancia diagonal estricta</span>:
+                                        </p>
+                                        <ul>
+                                            <li>|10| > |1| + |2|</li>
+                                            <li>|12| > |1| + |3|</li>
+                                            <li>|15| > |2| + |3|</li>
+                                        </ul>
+                                        <p>
+                                            Esto garantiza que el sistema es <strong>bien condicionado</strong> y que cualquier método iterativo (como Gauss-Seidel) convergerá de forma eficiente y única hacia la solución, asegurando la estabilidad del algoritmo en el despliegue real del servicio de IA.
+                                        </p>
+
+                                        <div>
+                                            <p>
+                                                El equilibrio hallado representa un escenario de operación estable. La distribución de carga protege la memoria RAM del nodo sensor (x₁) y evita cuellos de botella en la red local (x₂), delegando el procesamiento intensivo a la infraestructura Cloud (x₃).
+                                            </p>
+                                        </div>
+                                        
+                                        <h5>Análisis de Estrés: Escenario de Alta Carga del Sistema</h5>
+    
+                                        <p>
+                                            En este escenario, los coeficientes de consumo de recursos y la demanda del sistema (Vector B) se han triplicado. A pesar del incremento en la magnitud de los parámetros, el equilibrio de carga <span>x ≈ (3.31, 2.98, 3.96)</span> se mantiene constante, lo que revela puntos críticos sobre la escalabilidad:
+                                        </p>
+
+                                        <div>
+                                            <h6>1. Nodo de Borde (x₁): Resistencia Térmica y de RAM</h6>
+                                            <p>
+                                                Aunque el valor numérico es <span">3.31</span>, el coeficiente de consumo subió de 10 a <strong>30</strong>. Esto significa que cada unidad de tarea ahora exige el triple de recursos. Para un dispositivo tipo Jetson Nano, esto podría representar un riesgo de sobrecalentamiento o agotamiento de ciclos de reloj, aunque la proporción de tareas no haya variado.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>2. Nodo Local (x₂): Latencia de Agregación</h6>
+                                            <p>
+                                                Con un coeficiente de <strong>36</strong> en la diagonal, el nodo de niebla está operando en un entorno de red mucho más congestionado. Su estabilidad es la que permite que el sistema no colapse, absorbiendo el tráfico de datos que se ha triplicado en comparación con el caso anterior.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>3. Nodo Cloud (x₃): Dependencia Crítica del Ancho de Banda</h6>
+                                            <p>
+                                                El nodo nube sigue siendo el que mayor carga procesa (<span>3.96</span>). Sin embargo, con un valor de <span>B₃ = 255</span>, el sistema depende críticamente de que no exista pérdida de paquetes. Un incremento en la carga de esta magnitud suele anteceder a una inestabilidad por latencia (jitter).
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>Análisis de Robustez Numérica</h6>
+                                            <p>
+                                                Desde el punto de vista de <strong>Métodos Numéricos</strong>, este sistema es una versión escalada del anterior. Al multiplicarse tanto la matriz <strong>A</strong> como el vector <strong>B</strong> por el mismo factor (k=3), la solución <strong>X</strong> permanece idéntica.
+                                            </p>
+                                            <ul>
+                                                <li><strong>Convergencia:</strong> La matriz sigue siendo diagonalmente dominante, lo que asegura que el sistema es extremadamente estable frente a errores de redondeo.</li>
+                                                <li><strong>Linealidad:</strong> El sistema demuestra un comportamiento lineal perfecto, indicando que, teóricamente, el modelo puede escalar indefinidamente si el hardware soporta el aumento de los coeficientes de consumo.</li>
+                                            </ul>
+                                        </div>
+
+                                        <p>
+                                            El sistema es capaz de mantener el equilibrio bajo estrés, pero la viabilidad física dependerá de si los nodos de borde pueden soportar el incremento triple en el consumo de energía y memoria sin degradar el tiempo de respuesta total.
+                                        </p>
+                                        <h5>Análisis de Inestabilidad: Escenario de Estrés Crítico (Mal Condicionamiento)</h5>
+                                        <p>
+                                            En este escenario, se ha introducido una perturbación mínima en los coeficientes de la Fila 2. Aunque el cambio es de apenas <span>0.0001</span>, el vector de resultados ha colapsado a <span>x ≈ (4.07, -9.41, 6.33)</span>. Esto revela una crisis de arquitectura:
+                                        </p>
+
+                                        <div>
+                                            <h6>1. Nodo de Borde (x₁): Sobrecarga por Ruido</h6>
+                                            <p>
+                                                El valor sube a <span>4.0734</span>. El dispositivo de borde está intentando compensar la inestabilidad de la red asumiendo más tareas de las que su hardware puede procesar de forma segura, lo que llevaría a un fallo por latencia térmica inmediata.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>2. Nodo Local (x₂): Error Crítico de Asignación</h6>
+                                            <p>
+                                                El resultado <span>-9.4128</span> es físicamente imposible en un entorno real. Matemáticamente, esto indica que el sistema de ecuaciones ha perdido su sentido físico debido a que las filas 1 y 2 son <span>casi linealmente dependientes</span>. En la práctica, esto significa que el Nodo de Agregación ha dejado de funcionar o está enviando datos corruptos.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>3. Nodo Cloud (x₃): Saturación de Emergencia</h6>
+                                            <p>
+                                                Con un valor de <span>6.3394</span>, la carga en la nube se dispara casi al doble del caso ideal. El sistema está intentando "desbordar" todo el procesamiento hacia el servidor remoto porque la red local está tan congestionada que no puede distinguir entre las peticiones legítimas y el ruido (ataque de estrés).
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h6>Análisis de Error Numérico</h6>
+                                            <p>
+                                                Este es un ejemplo clásico de un sistema <strong>Mal Condicionado</strong>:
+                                            </p>
+                                            <ul>
+                                                <li><strong>Sensibilidad:</strong> Pequeños cambios en la matriz <span>A</span> (causados por fluctuaciones de red o interferencia) producen cambios gigantescos en la solución <span>X</span>.</li>
+                                                <li><strong>Dependencia Lineal:</strong> Las filas de latencia y costo se han vuelto casi idénticas, lo que hace que el determinante de la matriz sea cercano a cero.</li>
+                                                <li><strong>Fallo de Convergencia:</strong> En este estado, los métodos iterativos como Gauss-Seidel fallarían o tardarían demasiado en converger, lo que en una IA de vehículo autónomo resultaría en un accidente por falta de respuesta.</li>
+                                            </ul>
+                                        </div>
+
+                                        <p>
+                                            El sistema ha entrado en un estado de fallo lógico. La asignación negativa en <span>x₂</span> es una señal de alerta de que el modelo matemático ya no representa la realidad física, sugiriendo que la infraestructura ha colapsado ante el ruido o un ataque externo.
+                                        </p>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <h4>2. Referencia de Control</h4>
                                         <p>
                                             Se utiliza como parámetro de comparativa la <strong>solución exacta</strong> obtenida mediante el método de <strong>Descomposición LU</strong>. Al ser un método directo, nos permite establecer el punto de llegada real y determinar con precisión en qué iteración convergen los métodos iterativos.
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h4>2. Comportamiento en Sistemas Mal Condicionados</h4>
+                                        <h4>3. Comportamiento en Sistemas Mal Condicionados</h4>
                                         <p>
                                             El caso más evidente de inestabilidad es el sistema mal condicionado. Aunque teóricamente existe una solución exacta, ningún método iterativo logra converger a ella. Esto se debe a la geometría del sistema: tenemos dos planos casi paralelos cuya intersección no es un punto definido con claridad, sino una región de incertidumbre donde cualquier cambio mínimo en los coeficientes altera drásticamente el resultado.
                                         </p>
@@ -2414,7 +2546,7 @@
                                     </div>
 
                                     <div>
-                                        <h4>3. Comparativa de Eficiencia: Ideal vs. Estrés</h4>
+                                        <h4>4. Comparativa de Eficiencia: Ideal vs. Estrés</h4>
                                         <p>
                                             Los casos "Ideal" y "Bajo Estrés" comparten una estructura de sistema bien condicionado. El caso de estrés presenta ecuaciones ligeramente <strong>perturbadas</strong> respecto al ideal; sin embargo, ambos conservan la estabilidad suficiente para converger a la solución exacta con un esfuerzo computacional similar.
                                         </p>
@@ -2437,7 +2569,7 @@
                                     </div>
 
                                     <div>
-                                        <h4>4. Conclusión sobre Factorización LU</h4>
+                                        <h4>5. Conclusión sobre Factorización LU</h4>
                                         <p>
                                             La <strong>Factorización LU</strong> se posiciona como el referente absoluto. A diferencia de los métodos iterativos, no requiere aproximaciones sucesivas y entrega la solución en un solo paso. Es el único método que arroja un resultado útil en el caso de mal condicionamiento, siempre y cuando el sistema no sea estrictamente singular.
                                         </p>
@@ -2445,7 +2577,7 @@
                                 </section>
                                 
                                 <div>
-                                    <h4>5. Análisis del Precondicionador de Jacobi en GCP</h4>
+                                    <h4>6. Análisis del Precondicionador de Jacobi en GCP</h4>
                                     
                                     <p>
                                         El método del <strong>Gradiente Conjugado Precondicionado (GCP)</strong> busca optimizar la resolución de sistemas lineales transformando el "espacio" del problema para que el algoritmo encuentre la solución más rápido.
